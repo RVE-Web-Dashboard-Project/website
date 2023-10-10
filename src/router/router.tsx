@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import PublicLayout from "../pages/layouts/PublicLayout";
-import { publicRoutes } from "./routes/publicRoutes";
+import GeneralLayout from "../pages/layouts/GeneralLayout";
+import { generalRoutes } from "./routes/generalRoutes";
 
 const router = createBrowserRouter([
   {
-    element: <PublicLayout />,
+    element: <GeneralLayout />,
     children: [
-      ...publicRoutes,
+      ...generalRoutes,
     ],
   },
 ]);

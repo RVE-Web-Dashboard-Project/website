@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import Appbar from "../../components/common/Appbar";
 
 
-export default function PublicLayout() {
+export default function GeneralLayout() {
   return (
     <Stack height="100%" alignItems="center">
       <Appbar />
