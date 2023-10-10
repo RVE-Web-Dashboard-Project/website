@@ -19,7 +19,6 @@ export default function Appbar() {
   };
 
   const theme = useTheme();
-  console.log(theme.palette.primary.contrastText);
 
   return (
     <AppBar position="static">
@@ -32,7 +31,7 @@ export default function Appbar() {
               <IconButton
                 onClick={handleOpenUserMenu}
               >
-                <PersonOutlineOutlined fontSize="large" htmlColor="white" />
+                <PersonOutlineOutlined fontSize="large" htmlColor={theme.palette.primary.contrastText} />
               </IconButton>
             </Tooltip>
 
