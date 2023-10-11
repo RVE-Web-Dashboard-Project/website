@@ -6,8 +6,8 @@ import { WebsiteName } from "../../styles/theme";
 
 export default function Appbar() {
   const settings: {[key: string]: string} = useMemo(() => ({
-    "Login": "/login",
     "Placeholder": "/",
+    "Log out": "/logout",
   }), []);
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);

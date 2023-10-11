@@ -1,14 +1,11 @@
 import { Navigate } from "react-router-dom";
 
 import LoadingPage from "../../pages/genericPages/LoadingPage";
-// TODO: add authentication logic
-// import { useIsAuthenticated } from "../../repository/commands/useIsAuthenticated";
+import { useIsAuthenticated } from "../../repository/commands/userIsAuthenticated";
 
 
 export default function AuthGuard({ children }: {children: JSX.Element}) {
-  // const { isAuthenticated, loading } = useIsAuthenticated();
-  const isAuthenticated = false;
-  const loading = false;
+  const { isAuthenticated, loading } = useIsAuthenticated();
 
 
   if (loading) {
