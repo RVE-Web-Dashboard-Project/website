@@ -2,6 +2,8 @@ import { PersonOutlineOutlined } from "@mui/icons-material";
 import { AppBar, Box, Button, Container, IconButton, Link, Menu, MenuItem, Toolbar, Tooltip, Typography, useTheme } from "@mui/material";
 import React, { useMemo } from "react";
 
+import { WebsiteName } from "../../styles/theme";
+
 export default function Appbar() {
   const settings: {[key: string]: string} = useMemo(() => ({
     "Login": "/login",
@@ -80,7 +82,7 @@ function SiteTitle() {
           letterSpacing: ".2rem",
         }}
       >
-      RVE Station
+        {WebsiteName}
       </Typography>
     </Button>
   );

@@ -2,6 +2,8 @@ import { createTheme, LinkProps } from "@mui/material";
 
 import LinkBehavior from "./LinkBehavior";
 
+export const WebsiteName = "RVE Station";
+
 export const RveTheme = createTheme({
   components: {
     MuiLink: {
