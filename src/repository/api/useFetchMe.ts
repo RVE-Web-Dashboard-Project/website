@@ -16,6 +16,8 @@ export function useFetchMe() {
 
   async function fetchMeCommand() {
     setLoading(true);
+    setError(null);
+
     if (token === null) {
       setError("No token provided");
       setLoading(false);
