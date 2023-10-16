@@ -1,4 +1,6 @@
 export interface AuthenticatedUserObject {
   id: string;
-  username: string;
+  name: string;
+  isAdmin: boolean;
+  createdAt: Date;
 }
