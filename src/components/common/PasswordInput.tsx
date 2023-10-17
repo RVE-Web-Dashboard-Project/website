@@ -5,11 +5,14 @@ import { useState } from "react";
 interface PasswordInputProps {
   id: string;
   label: string;
+  value?: Parameters<(typeof OutlinedInput)>[0]["value"];
+  onInput?: Parameters<(typeof OutlinedInput)>[0]["onInput"];
+  disabled?: boolean;
   required?: boolean;
   controlSx?: SxProps<Theme>;
 }
 
-export default function PasswordInput({ id, label, required, controlSx }: PasswordInputProps) {
+export default function PasswordInput({ id, label, value, onInput, disabled, required, controlSx }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -39,6 +42,9 @@ export default function PasswordInput({ id, label, required, controlSx }: Passwo
         }
         label={label}
         required={required}
+        value={value}
+        onInput={onInput}
+        disabled={disabled}
       />
     </FormControl>
   );
