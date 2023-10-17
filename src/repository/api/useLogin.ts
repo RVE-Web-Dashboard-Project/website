@@ -5,15 +5,18 @@ import useSetToken from "../redux/dispatchs/useSetToken";
 import useSetUser from "../redux/dispatchs/useSetUser";
 
 interface LoginJSONResponse {
-  token: string;
-  id: string;
-  name: string;
-  isAdmin: boolean;
-  createdAt: Date;
+  success: true,
+  data: {
+    token: string;
+    id: string;
+    name: string;
+    isAdmin: boolean;
+    createdAt: Date;
+}
 }
 
 export function useLogin() {
-  const [error, setError] = useState<string | null>(null);
+  const [errorCode, setErrorCode] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<LoginJSONResponse | null>(null);
 
@@ -23,11 +26,11 @@ export function useLogin() {
 
   async function loginCommand(username: string, password: string) {
     setLoading(true);
-    setError(null);
+    setErrorCode(null);
 
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/auth/login",
+        process.env.REACT_APP_API_URL + "/user/login",
         {
           method: "POST",
           headers: {
@@ -38,26 +41,26 @@ export function useLogin() {
       if (response.status === 200) {
         const json = await response.json() as LoginJSONResponse;
         setData(json);
-        setTokenCommand(json.token);
+        setTokenCommand(json.data.token);
         setUserCommand({
-          id: json.id,
-          name: json.name,
-          isAdmin: json.isAdmin,
-          createdAt: json.createdAt,
+          id: json.data.id,
+          name: json.data.name,
+          isAdmin: json.data.isAdmin,
+          createdAt: json.data.createdAt,
         });
       } else if (response.status === 401) {
-        setError("Invalid credentials");
+        setErrorCode(401);
         logoutCommand();
       } else {
-        setError(`Something went wrong: ${response.status} code`);
+        setErrorCode(response.status);
       }
     } catch (err) {
-      setError("Unknown error");
+      setErrorCode(500);
       console.error(err);
     } finally {
       setLoading(false);
     }
   }
 
-  return { loginCommand, error, loading, data };
+  return { loginCommand, error: errorCode, loading, data };
 }

@@ -41,7 +41,7 @@ export function useFetchMe() {
         setError("Invalid token");
         logoutCommand();
       } else {
-        setError(`Something went wrong: ${response.status} code`);
+        setError(`Something went wrong: code ${response.status}`);
       }
     } catch (err) {
       setError("Unknown error");
