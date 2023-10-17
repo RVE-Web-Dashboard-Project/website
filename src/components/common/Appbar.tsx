@@ -8,10 +8,18 @@ import { WebsiteName } from "../../styles/theme";
 export default function Appbar() {
   const { user } = useGetorFetchMe();
 
-  const settings: {[key: string]: string} = useMemo(() => ({
-    "Placeholder": "/",
-    "Log out": "/logout",
-  }), []);
+  const settings: {[key: string]: string} = useMemo(() => {
+    let defaultPages: Record<string, string> = {
+      "Log out": "/logout",
+    };
+    if (user?.isAdmin) {
+      defaultPages = {
+        "Administration": "/admin",
+        ...defaultPages,
+      };
+    }
+    return defaultPages;
+  }, [user?.isAdmin]);
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
