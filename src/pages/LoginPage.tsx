@@ -1,8 +1,7 @@
-import { Button, FormControl, GlobalStyles, Paper, styled, TextField, Typography, useTheme } from "@mui/material";
+import { GlobalStyles, Paper, styled, useTheme } from "@mui/material";
 import { Fragment } from "react";
 
-import PasswordInput from "../components/common/PasswordInput";
-import { WebsiteName } from "../styles/theme";
+import LoginForm from "../components/Login/LoginForm";
 
 export default function LoginPage() {
   const theme = useTheme();
@@ -15,21 +14,7 @@ export default function LoginPage() {
         }}
       />
       <FormBackground elevation={2}>
-        <FormTitle variant="h4" noWrap>
-          {WebsiteName}
-        </FormTitle>
-        <FormControl fullWidth sx={{ px: 2 }} >
-          <TextField id="username" label="Username" variant="outlined" sx={{ my: 2 }} required />
-          <PasswordInput
-            id="password"
-            label="Password *"
-            required
-          />
-
-          <Button variant="contained" type="submit" sx={{ mt: 3 }}>
-            Login
-          </Button>
-        </FormControl>
+        <LoginForm />
       </FormBackground>
     </Fragment>
   );
@@ -45,13 +30,4 @@ const FormBackground = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   backgroundColor: "rgba(255, 255, 255, 0.8)",
   textAlign: "center",
-}));
-
-const FormTitle = styled(Typography)(({ theme }) => ({
-  marginTop: theme.spacing(1),
-  marginBottom: theme.spacing(3),
-
-  [theme.breakpoints.down("md")]: {
-    marginBottom: theme.spacing(1),
-  },
 }));
