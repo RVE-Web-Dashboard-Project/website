@@ -5,6 +5,11 @@ import useSetUser from "../redux/dispatchs/useSetUser";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 import { AuthenticatedUserObject } from "../types/user";
 
+interface ApiResponse {
+  success: true,
+  data: AuthenticatedUserObject
+}
+
 export function useFetchMe() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -34,9 +39,9 @@ export function useFetchMe() {
           },
         });
       if (response.status === 200) {
-        const json = await response.json() as AuthenticatedUserObject;
-        setData(json);
-        setUserCommand(json);
+        const json = await response.json() as ApiResponse;
+        setData(json.data);
+        setUserCommand(json.data);
       } else if (response.status === 401) {
         setError("Invalid token");
         logoutCommand();
