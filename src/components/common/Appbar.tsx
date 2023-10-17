@@ -2,9 +2,12 @@ import { PersonOutlineOutlined } from "@mui/icons-material";
 import { AppBar, Box, Button, Container, IconButton, Link, Menu, MenuItem, Toolbar, Tooltip, Typography, useTheme } from "@mui/material";
 import React, { useMemo } from "react";
 
+import { useGetorFetchMe } from "../../repository/commands/useGetorFetchMe";
 import { WebsiteName } from "../../styles/theme";
 
 export default function Appbar() {
+  const { user } = useGetorFetchMe();
+
   const settings: {[key: string]: string} = useMemo(() => ({
     "Placeholder": "/",
     "Log out": "/logout",
@@ -29,7 +32,7 @@ export default function Appbar() {
           <SiteTitle />
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title={"Profile"}>
+            <Tooltip title={user?.name ?? "Profile"}>
               <IconButton
                 onClick={handleOpenUserMenu}
               >
