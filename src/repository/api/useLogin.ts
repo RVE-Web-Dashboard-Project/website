@@ -12,7 +12,7 @@ interface LoginJSONResponse {
     name: string;
     isAdmin: boolean;
     createdAt: Date;
-}
+  }
 }
 
 export function useLogin() {
