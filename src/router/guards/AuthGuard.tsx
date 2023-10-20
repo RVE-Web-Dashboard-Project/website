@@ -13,7 +13,7 @@ export default function AuthGuard({ children }: {children: JSX.Element}) {
   }
 
   if (!isAuthenticated) {
-    console.log("AuthGuard: user is NOT authenticated, redirecting to ligin");
+    console.log("AuthGuard: user is NOT authenticated, redirecting to login");
     return <Navigate to="/login" />;
   }
 
