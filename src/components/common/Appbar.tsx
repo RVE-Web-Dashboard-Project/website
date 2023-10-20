@@ -2,15 +2,16 @@ import { PersonOutlineOutlined } from "@mui/icons-material";
 import { AppBar, Box, Button, Container, IconButton, Link, Menu, MenuItem, Toolbar, Tooltip, Typography, useTheme } from "@mui/material";
 import React, { useMemo } from "react";
 
+import { useLogout } from "../../repository/api/useLogout";
 import { useGetorFetchMe } from "../../repository/commands/useGetorFetchMe";
 import { WebsiteName } from "../../styles/theme";
 
 export default function Appbar() {
   const { user } = useGetorFetchMe();
+  const { logoutCommand } = useLogout();
 
   const settings: {[key: string]: string} = useMemo(() => {
     let defaultPages: Record<string, string> = {
-      "Log out": "/logout",
     };
     if (user?.isAdmin) {
       defaultPages = {
@@ -66,6 +67,11 @@ export default function Appbar() {
                   <Typography textAlign="center">{key}</Typography>
                 </MenuItem>
               ))}
+              {user && (
+                <MenuItem key="logout" onClick={logoutCommand}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
 
