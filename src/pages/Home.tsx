@@ -1,7 +1,8 @@
-import { Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { Fragment } from "react";
 
 import { CoordinatorsSelection } from "../components/Home/CoordinatorsSelection";
+import { NodesSelection } from "../components/Home/NodesSelection";
 
 export default function Home() {
   return (
@@ -10,7 +11,11 @@ export default function Home() {
       Home
       </Typography>
 
-      <CoordinatorsSelection />
+      <Stack direction="row" spacing={2}>
+        <CoordinatorsSelection />
+
+        <NodesSelection />
+      </Stack>
     </Fragment>
   );
 }
