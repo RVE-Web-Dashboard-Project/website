@@ -1,9 +1,16 @@
 import { Typography } from "@mui/material";
+import { Fragment } from "react";
+
+import { CoordinatorsSelection } from "../components/Home/CoordinatorsSelection";
 
 export default function Home() {
   return (
-    <Typography my={2} variant="h4" noWrap>
+    <Fragment>
+      <Typography my={2} variant="h4" noWrap>
       Home
-    </Typography>
+      </Typography>
+
+      <CoordinatorsSelection />
+    </Fragment>
   );
 }

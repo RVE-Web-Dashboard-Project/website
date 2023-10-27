@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface CoordinatorsState {
-  nodesMap: {[key: number]: number[]};
+  nodesMap: {[key: number]: number[]} | null;
 }
 
 const initialState: CoordinatorsState = {
-  nodesMap: {},
+  nodesMap: null,
 };
 
 export const coordinatorsSlice = createSlice({
