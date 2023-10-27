@@ -9,7 +9,7 @@ export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { loginCommand, error, loading, data } = useLogin();
+  const { loginCommand, error, loading } = useLogin();
 
   const onSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -27,8 +27,6 @@ export default function LoginForm() {
     }
   }
   , [error]);
-
-  console.log(`data: ${data}, error: ${error}, loading: ${loading}`);
 
   const isButtonDisabled = loading || !username.trim() || !password.trim();
 

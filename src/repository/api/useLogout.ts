@@ -9,7 +9,6 @@ export function useLogout() {
   const [loading, setLoading] = useState(false);
 
   const token = useTokenSelector();
-  console.log(token?.slice(0, 10));
   const { logoutCommand: reduxLogoutCommand } = useReduxLogout();
 
   async function logoutCommand() {
