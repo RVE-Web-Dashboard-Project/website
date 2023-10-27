@@ -28,7 +28,7 @@ export function useFetchNodes() {
 
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/coordinators/nodes",
+        process.env.REACT_APP_API_URL + "/coordinator/nodes",
         {
           method: "GET",
           headers: {
