@@ -47,6 +47,6 @@ export const coordinatorsSlice = createSlice({
   },
 });
 
-export const { setNodesMap, setCoordinatorSelection, setNodeSelection } = coordinatorsSlice.actions;
+export const { setNodesMap, setAllCoordinatorsSelection, setCoordinatorSelection, setAllNodesSelection, setNodeSelection } = coordinatorsSlice.actions;
 
 export default coordinatorsSlice.reducer;
