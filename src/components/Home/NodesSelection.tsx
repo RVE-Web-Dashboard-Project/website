@@ -1,6 +1,7 @@
 import { CircularProgress, Typography } from "@mui/material";
 
 import { useGetorFetchNodes } from "../../repository/commands/useGetOfFetchNodes";
+import { SelectionContainer } from "./SelectionContainer";
 
 export const NodesSelection = () => {
   const { nodes, error, loading } = useGetorFetchNodes();
@@ -14,8 +15,8 @@ export const NodesSelection = () => {
   }
 
   return (
-    <div>
-      <Typography variant="h6">Select nodes</Typography>
+    <SelectionContainer>
+      <Typography variant="h5">Nodes</Typography>
       <ul>
         {Object.entries(nodes).map(([coordinatorId, nodesObject]) => (
           <li>{coordinatorId}
@@ -29,6 +30,6 @@ export const NodesSelection = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </SelectionContainer>
   );
 };
