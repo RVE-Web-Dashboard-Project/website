@@ -11,7 +11,7 @@ export default function Home() {
       Home
       </Typography>
 
-      <Stack direction="row" spacing={2}>
+      <Stack direction={{ xs: "column", md: "row" }} spacing={2} width="100%" paddingX="5%" useFlexGap>
         <CoordinatorsSelection />
 
         <NodesSelection />
