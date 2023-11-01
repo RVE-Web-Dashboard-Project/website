@@ -23,7 +23,7 @@ export const RveTheme = createTheme({
       main: "#D70A18",
     },
     secondary: {
-      main: "#0AD7C9",
+      main: "#09c3b6",
     },
   },
 });
