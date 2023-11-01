@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import useSetNodesMap from "../redux/dispatchs/useSetNodesMap";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
+import { CoordinatorsState } from "../redux/slices/coordinatorsSlice";
 
 interface ApiResponse {
   success: true,
@@ -38,7 +39,22 @@ export function useFetchNodes() {
       if (response.status === 200) {
         const json = await response.json() as ApiResponse;
         setData(json.data);
-        setNodesMap(json.data);
+        setNodesMap(
+          Object.entries(json.data).reduce((acc, [key, value]) => {
+            acc[parseInt(key)] = {
+              selected: false,
+              nodes: value.reduce((nAcc, nodeId) => {
+                nAcc[nodeId] = false;
+                return nAcc;
+              },
+              {} as {[key: number]: boolean},
+              ),
+            };
+            return acc;
+          },
+          {} as Exclude<CoordinatorsState["nodesMap"], null>,
+          ),
+        );
       } else if (response.status === 401) {
         setError("Invalid token");
       } else {
