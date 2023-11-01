@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface CoordinatorsState {
-  nodesMap: {[key: number]: number[]} | null;
+  nodesMap: {[key: number]: {
+    selected: boolean,
+    nodes: {
+      [key: number]: boolean,
+    }
+  }} | null;
 }
 
 const initialState: CoordinatorsState = {

@@ -17,12 +17,14 @@ export const NodesSelection = () => {
     <div>
       <Typography variant="h6">Select nodes</Typography>
       <ul>
-        {Object.entries(nodes).map(([coordinatorId, nodesList]) => (
+        {Object.entries(nodes).map(([coordinatorId, nodesObject]) => (
           <li>{coordinatorId}
             <ul>
-              {nodesList.map((node) => (
-                <li>{node}</li>
-              ))}
+              {
+                Object.entries(nodesObject.nodes).map(([nodeId, nodeSelected]) => (
+                  <li>{nodeId}</li>
+                ))
+              }
             </ul>
           </li>
         ))}
