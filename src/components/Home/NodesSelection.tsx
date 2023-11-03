@@ -53,8 +53,8 @@ export const NodesSelection = () => {
   const SelectorsComponent = (
     <Fragment>
       {Object.entries(shownNodes).map(([coordinatorId, nodesObject]) => (
-        <Box key={coordinatorId}>
-          <Typography variant="h6">{coordinatorId}</Typography>
+        <Box key={coordinatorId} my={1}>
+          <Typography variant="body1" color="GrayText">{`Coordinator ${coordinatorId}`}</Typography>
           <CustomCheckbox
             id={coordinatorId}
             label={"Select all"}
@@ -82,8 +82,14 @@ export const NodesSelection = () => {
 
   return (
     <SelectionContainer>
-      <Typography variant="h5">Nodes</Typography>
-      {anyCoordinatorShown ? SelectorsComponent : <Typography variant="subtitle1" color="GrayText">No coordinator selected</Typography>}
+      <Typography variant="h5" mb={1}>Nodes</Typography>
+      {anyCoordinatorShown ? SelectorsComponent : <NoCoordinatorError />}
     </SelectionContainer>
   );
 };
+
+const NoCoordinatorError = () => (
+  <Stack flex={1} justifyContent="center" marginLeft={1}>
+    <Typography color="error">No coordinator selected</Typography>
+  </Stack>
+);
