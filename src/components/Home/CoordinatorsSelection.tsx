@@ -1,4 +1,5 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
+import { useMemo } from "react";
 
 import { useGetorFetchNodes } from "../../repository/commands/useGetOfFetchNodes";
 import { useEditNodeSelection } from "../../repository/redux/dispatchs/useEditNodeSelection";
@@ -8,6 +9,15 @@ import { SelectionContainer } from "./SelectionContainer";
 export const CoordinatorsSelection = () => {
   const { nodes, error, loading } = useGetorFetchNodes();
   const { setAllCoordinatorsSelectionCommand, setCoordinatorSelectionCommand } = useEditNodeSelection();
+
+  const shownCoordinators = useMemo(() => {
+    if (nodes === null) {
+      return {};
+    }
+    return Object.fromEntries(
+      Object.entries(nodes).filter(([coordinatorId, coordinatorObject]) => Object.keys(coordinatorObject.nodes).length > 0),
+    );
+  }, [nodes]);
 
   if (loading || nodes === null) {
     return <CircularProgress />;
@@ -25,8 +35,8 @@ export const CoordinatorsSelection = () => {
     setCoordinatorSelectionCommand(Number(coordinatorId), isChecked);
   };
 
-  const allChecked = Object.values(nodes).every((coordinatorObject) => coordinatorObject.selected);
-  const noneChecked = Object.values(nodes).every((coordinatorObject) => !coordinatorObject.selected);
+  const allChecked = Object.values(shownCoordinators).every((coordinatorObject) => coordinatorObject.selected);
+  const noneChecked = Object.values(shownCoordinators).every((coordinatorObject) => !coordinatorObject.selected);
 
 
   return (
@@ -41,7 +51,7 @@ export const CoordinatorsSelection = () => {
       />
 
       <Stack direction="row" ml={2} sx={{ gap: "0 24px" }} flexWrap="wrap">
-        {Object.entries(nodes).map(([coordinatorId, coordinatorObject]) => (
+        {Object.entries(shownCoordinators).map(([coordinatorId, coordinatorObject]) => (
           <CustomCheckbox
             key={coordinatorId}
             id={coordinatorId}
