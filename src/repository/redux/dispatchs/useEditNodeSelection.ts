@@ -13,8 +13,8 @@ export function useEditNodeSelection() {
     dispatch(setCoordinatorSelection({ coordinatorId, selected }));
   }
 
-  async function setAllNodesSelectionCommand(selected: boolean, coordinatorId: number) {
-    dispatch(setAllNodesSelection({ selected, coordinatorId }));
+  async function setAllNodesSelectionCommand(coordinatorId: number, selected: boolean) {
+    dispatch(setAllNodesSelection({ coordinatorId, selected }));
   }
 
   async function setNodeSelectionCommand(coordinatorId: number, nodeId: number, selected: boolean) {
