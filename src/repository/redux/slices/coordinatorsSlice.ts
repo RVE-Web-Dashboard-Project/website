@@ -40,7 +40,7 @@ export const coordinatorsSlice = createSlice({
       }
     },
     setNodeSelection: (state, action: PayloadAction<{coordinatorId: number, nodeId: number, selected: boolean}>) => {
-      if (state.nodesMap && state.nodesMap[action.payload.coordinatorId] && state.nodesMap[action.payload.coordinatorId].nodes[action.payload.nodeId]) {
+      if (state.nodesMap && state.nodesMap[action.payload.coordinatorId] && state.nodesMap[action.payload.coordinatorId].nodes[action.payload.nodeId] !== undefined) {
         state.nodesMap[action.payload.coordinatorId].nodes[action.payload.nodeId] = action.payload.selected;
       }
     },
