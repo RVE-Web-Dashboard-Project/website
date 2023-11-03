@@ -22,11 +22,17 @@ export const NodesSelection = () => {
   const entireCoordinatorChecked = useMemo(() =>
     // build a map of coordinatorId -> boolean
     Object.fromEntries(
-      Object.entries(shownNodes).map(([coordinatorId, nodesObject]) => ([
-        coordinatorId,
-        Object.entries(nodesObject.nodes).every(([nodeId, nodeSelected]) => nodeSelected),
-      ]
-      )),
+      Object.entries(shownNodes).map(([coordinatorId, nodesObject]) => {
+        const allSelected = Object.values(nodesObject.nodes).every(Boolean);
+        const anySelected = Object.values(nodesObject.nodes).some(Boolean);
+        return [
+          coordinatorId,
+          {
+            checked: allSelected,
+            indeterminate: !allSelected && anySelected,
+          },
+        ];
+      }),
     )
   , [shownNodes]);
 
@@ -58,8 +64,8 @@ export const NodesSelection = () => {
           <CustomCheckbox
             id={coordinatorId}
             label={"Select all"}
-            checked={entireCoordinatorChecked[coordinatorId]}
-            // indeterminate={!allChecked && !noneChecked}
+            checked={entireCoordinatorChecked[coordinatorId].checked}
+            indeterminate={entireCoordinatorChecked[coordinatorId].indeterminate}
             onChange={onEntireCoordinatorChange}
           />
 
