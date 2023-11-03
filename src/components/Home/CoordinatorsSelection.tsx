@@ -31,7 +31,7 @@ export const CoordinatorsSelection = () => {
 
   return (
     <SelectionContainer>
-      <Typography variant="h5">Coordinators</Typography>
+      <Typography variant="h5" mb={1}>Coordinators</Typography>
       <CustomCheckbox
         id={"all"}
         label={"Select all"}
