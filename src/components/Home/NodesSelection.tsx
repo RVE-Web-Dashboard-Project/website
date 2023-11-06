@@ -96,6 +96,6 @@ export const NodesSelection = () => {
 
 const NoCoordinatorError = () => (
   <Stack flex={1} justifyContent="center" marginLeft={1}>
-    <Typography color="error">No coordinator selected</Typography>
+    <Typography color="error">Please select a coordinator first.</Typography>
   </Stack>
 );
