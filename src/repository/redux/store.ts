@@ -1,13 +1,15 @@
 import { configureStore, TypedStartListening } from "@reduxjs/toolkit";
 
 import localStorageMiddleware from "./middlewares/localStorageMiddleware";
-import coordinatorReducer from "./slices/coordinatorsSlice";
+import commandsReducer from "./slices/commandsSlice";
+import coordinatorsReducer from "./slices/coordinatorsSlice";
 import userReducer from "./slices/userSlice";
 
 const store = configureStore({
   reducer: {
     user: userReducer,
-    coordinators: coordinatorReducer,
+    coordinators: coordinatorsReducer,
+    commands: commandsReducer,
   },
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware(),
