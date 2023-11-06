@@ -3,11 +3,11 @@ import { AppBar, Box, Button, Container, IconButton, Link, Menu, MenuItem, Toolb
 import React, { useMemo } from "react";
 
 import { useLogout } from "../../repository/api/useLogout";
-import { useGetorFetchMe } from "../../repository/commands/useGetorFetchMe";
+import { useGetOrFetchMe } from "../../repository/commands/useGetOrFetchMe";
 import { WebsiteName } from "../../styles/theme";
 
 export default function Appbar() {
-  const { user } = useGetorFetchMe();
+  const { user } = useGetOrFetchMe();
   const { logoutCommand } = useLogout();
 
   const settings: {[key: string]: string} = useMemo(() => {

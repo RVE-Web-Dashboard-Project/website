@@ -1,13 +1,13 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { useMemo } from "react";
 
-import { useGetorFetchNodes } from "../../repository/commands/useGetOfFetchNodes";
+import { useGetOrFetchNodes } from "../../repository/commands/useGetOrFetchNodes";
 import { useEditNodeSelection } from "../../repository/redux/dispatchs/useEditNodeSelection";
 import { CustomCheckbox } from "./CustomCheckbox";
 import { SelectionContainer } from "./SelectionContainer";
 
 export const CoordinatorsSelection = () => {
-  const { nodes, error, loading } = useGetorFetchNodes();
+  const { nodes, error, loading } = useGetOrFetchNodes();
   const { setAllCoordinatorsSelectionCommand, setCoordinatorSelectionCommand } = useEditNodeSelection();
 
   const shownCoordinators = useMemo(() => {
