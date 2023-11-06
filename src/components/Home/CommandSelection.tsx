@@ -80,6 +80,8 @@ const ParameterTextField = ({ parameter, value, onChange }: ParameterTextFieldPr
     }
   }
 
+  const shouldShowError = !checkValue(currentTextValue);
+
   return (
     <TextField
       id={`command-parameter-${parameter.id}`}
@@ -89,7 +91,8 @@ const ParameterTextField = ({ parameter, value, onChange }: ParameterTextFieldPr
       onChange={onValueChange}
       size="small"
       color="secondary"
-      error={!checkValue(currentTextValue)}
+      error={shouldShowError}
+      helperText={shouldShowError ? "Invalid value" : ""}
       required
     />
   );
