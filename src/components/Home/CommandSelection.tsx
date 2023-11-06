@@ -1,4 +1,4 @@
-import { Box, FormControl, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Box, FormControl, MenuItem, Select, SelectChangeEvent, styled, TextField, Typography } from "@mui/material";
 import { ReactNode, useState } from "react";
 
 import { useGetOrFetchCommands } from "../../repository/commands/useGetOrFetchCommands";
@@ -35,7 +35,10 @@ export const CommandSelection = () => {
           disabled={commands.length === 0 || error !== null}
         >
           {commands.map((command) => (
-            <MenuItem key={command.id} value={command.id}>{command.name}</MenuItem>
+            <MenuItem key={command.id} value={command.id} sx={{ flexDirection: "column", alignItems: "flex-start" }}>
+              <Typography>{command.name}</Typography>
+              <MenuItemCaption variant="caption">{command.description}</MenuItemCaption>
+            </MenuItem>
           ))}
         </Select>
 
@@ -53,6 +56,10 @@ export const CommandSelection = () => {
     </Box>
   );
 };
+
+const MenuItemCaption = styled(Typography)(({ theme }) => ({
+  color: theme.palette.grey[700],
+}));
 
 
 interface ParameterTextFieldProps {
