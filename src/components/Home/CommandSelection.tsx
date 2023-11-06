@@ -26,8 +26,8 @@ export const CommandSelection = () => {
 
   return (
     <Box minWidth="250px">
-      <Typography variant="h5" mb={1}>Command</Typography>
-      <FormControl fullWidth size="small" color="secondary">
+      <Typography variant="h5" mb={2}>Command</Typography>
+      <FormControl fullWidth size="small" color="secondary" sx={{ gap: 2 }}>
         <Select
           id="command-select"
           value={selectedCommand?.id.toString() ?? ""}
