@@ -2,7 +2,7 @@ import { useFetchNodes } from "../api/useFetchNodes";
 import useCoordinatorSelector from "../redux/selectors/useCoordinatorsSelector";
 
 
-export function useGetorFetchNodes() {
+export function useGetOrFetchNodes() {
   const { fetchNodesCommand, error, loading } = useFetchNodes();
 
   const nodes = useCoordinatorSelector();

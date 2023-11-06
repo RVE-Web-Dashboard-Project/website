@@ -3,7 +3,7 @@ import useTokenSelector from "../redux/selectors/useTokenSelector";
 import useUserSelector from "../redux/selectors/useUserSelector";
 
 
-export function useGetorFetchMe() {
+export function useGetOrFetchMe() {
   const { fetchMeCommand, error, loading } = useFetchMe();
 
   const token = useTokenSelector();

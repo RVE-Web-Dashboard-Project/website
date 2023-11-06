@@ -1,7 +1,7 @@
-import { useGetorFetchMe } from "./useGetorFetchMe";
+import { useGetOrFetchMe } from "./useGetOrFetchMe";
 
 
 export function useIsAuthenticated() {
-  const { user, loading } = useGetorFetchMe();
+  const { user, loading } = useGetOrFetchMe();
   return { isAuthenticated: user !== null, loading };
 }
