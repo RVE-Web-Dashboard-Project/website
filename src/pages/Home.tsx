@@ -30,7 +30,7 @@ export default function Home() {
 const CommandSectionContainer = styled(Stack)(({ theme }) => ({
   flex: 1,
   flexDirection: "row",
-  margin: "0 5%",
+  margin: "0 5% 3%",
   border: "1px solid",
   borderRadius: 35,
   borderColor: theme.palette.grey[500],
