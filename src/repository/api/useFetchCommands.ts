@@ -41,6 +41,10 @@ export function useFetchCommands() {
         const json = await response.json() as ApiResponse;
         setData(json.data);
         setCommands(json.data);
+      } else if (response.status === 401) {
+        setError("Error: Unauthorized");
+      } else {
+        setError(`Something went wrong: code ${response.status}`);
       }
     } catch (err) {
       setError("Unknown error");
