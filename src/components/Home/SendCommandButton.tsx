@@ -1,4 +1,5 @@
-import { Button } from "@mui/material";
+import { Check, ErrorOutline } from "@mui/icons-material";
+import { Button, CircularProgress, Stack, styled, Typography } from "@mui/material";
 import { useMemo } from "react";
 
 import { useSendCommand } from "../../repository/api/useSendCommand";
@@ -12,7 +13,7 @@ interface SendCommandButtonProps {
 
 export const SendCommandButton = ({ command, parameterValues }: SendCommandButtonProps) => {
   const selectedNodes = useSelectedNodesSelector();
-  const { sendCommand, loading } = useSendCommand();
+  const { sendCommand, loading, error, success } = useSendCommand();
 
   const sanitizedParameters: number[] | null = useMemo(() => {
     if (command === null) {
@@ -47,9 +48,30 @@ export const SendCommandButton = ({ command, parameterValues }: SendCommandButto
   const isButtonDisabled = command === null || Object.keys(selectedNodes).length === 0 || sanitizedParameters === null;
 
   return (
-    <Button variant="contained" color="primary" disabled={isButtonDisabled} onClick={onClick} fullWidth>
-      Send
-    </Button>
+    <Stack useFlexGap spacing={0.5}>
+      <Button variant="contained" color="primary" disabled={isButtonDisabled} onClick={onClick} fullWidth>
+        Send
+      </Button>
+      <ButtonCaption loading={loading} error={error} success={success} />
+    </Stack>
   );
-
 };
+
+const ButtonCaption = ({ loading, error, success }: Omit<ReturnType<typeof useSendCommand>, "sendCommand">) => {
+  const iconStyle = { fontSize: "small", mr: 0.5 };
+  if (loading) {
+    return <AlignedTypo variant="caption" color="GrayText"><CircularProgress size={20} sx={{ ...iconStyle, color: "gray" }} />We're sending your command...</AlignedTypo>;
+  }
+  if (error) {
+    return <AlignedTypo variant="caption" color="error"><ErrorOutline sx={iconStyle} />Oops, something went wrong while sending the command</AlignedTypo>;
+  }
+  if (success) {
+    return <AlignedTypo variant="caption" color="green"><Check sx={iconStyle} /> Command sent successfully!</AlignedTypo>;
+  }
+  return null;
+};
+
+const AlignedTypo = styled(Typography)(() => ({
+  display: "flex",
+  alignItems: "center",
+}));
