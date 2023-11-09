@@ -19,6 +19,6 @@ const selectedNodesSelector = createSelector(
   },
 );
 
-export default function useSelectedNodesSelector() {
+export default function useSelectedNodesSelector(): Record<number, number[]> {
   return useAppSelector(selectedNodesSelector);
 }
