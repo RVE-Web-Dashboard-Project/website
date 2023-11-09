@@ -1,28 +1,14 @@
-import { Box, Button, FormControl, MenuItem, Select, SelectChangeEvent, styled, TextField, Typography } from "@mui/material";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { Box, FormControl, MenuItem, Select, SelectChangeEvent, styled, TextField, Typography } from "@mui/material";
+import { ReactNode, useEffect, useState } from "react";
 
 import { useGetOrFetchCommands } from "../../repository/commands/useGetOrFetchCommands";
-import useSelectedNodesSelector from "../../repository/redux/selectors/useSelectedNodesSelector";
 import { Command, CommandParameter } from "../../repository/types/command";
+import { SendCommandButton } from "./SendCommandButton";
 
 export const CommandSelection = () => {
   const { commands, error } = useGetOrFetchCommands();
-  const selectedNodes = useSelectedNodesSelector();
   const [selectedCommand, setSelectedCommand] = useState<Command | null>(null);
   const [parameters, setParameters] = useState<Record<string, number>>({});
-
-  const checkParameterValues = useMemo(() => {
-    if (selectedCommand === null) {
-      return false;
-    }
-    for (const parameter of selectedCommand.parameters) {
-      const value = parameters[`${selectedCommand.id}-${parameter.id}`];
-      if (value === undefined || value === null) {
-        return false;
-      }
-    }
-    return true;
-  }, [selectedCommand, parameters]);
 
   if (error) {
     return <Typography variant="h6" color="error">{error}</Typography>;
@@ -44,9 +30,6 @@ export const CommandSelection = () => {
       setParameters((prev) => ({ ...prev, [absoluteParamId]: value }));
     }
   };
-
-
-  const isButtonDisabled = selectedCommand === null || Object.keys(selectedNodes).length === 0 || !checkParameterValues;
 
   return (
     <Box minWidth="250px">
@@ -76,9 +59,7 @@ export const CommandSelection = () => {
           />
         ))}
 
-        <Button variant="contained" color="primary" disabled={isButtonDisabled} fullWidth>
-          Send
-        </Button>
+        <SendCommandButton command={selectedCommand} parameterValues={parameters} />
       </FormControl>
     </Box>
   );
