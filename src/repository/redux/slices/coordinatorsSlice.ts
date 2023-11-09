@@ -24,12 +24,24 @@ export const coordinatorsSlice = createSlice({
       if (state.nodesMap) {
         for (const coordinatorId of Object.keys(state.nodesMap)) {
           state.nodesMap[parseInt(coordinatorId)].selected = action.payload;
+          // if coordinator is unselected, also set all nodes to unselected
+          if (!action.payload) {
+            for (const nodeId of Object.keys(state.nodesMap[parseInt(coordinatorId)].nodes)) {
+              state.nodesMap[parseInt(coordinatorId)].nodes[parseInt(nodeId)] = false;
+            }
+          }
         }
       }
     },
     setCoordinatorSelection: (state, action: PayloadAction<{coordinatorId: number, selected: boolean}>) => {
       if (state.nodesMap && state.nodesMap[action.payload.coordinatorId]) {
         state.nodesMap[action.payload.coordinatorId].selected = action.payload.selected;
+        // if coordinator is unselected, also set all nodes to unselected
+        if (!action.payload.selected) {
+          for (const nodeId of Object.keys(state.nodesMap[action.payload.coordinatorId].nodes)) {
+            state.nodesMap[action.payload.coordinatorId].nodes[parseInt(nodeId)] = false;
+          }
+        }
       }
     },
     setAllNodesSelection(state, action: PayloadAction<{coordinatorId: number, selected: boolean}>) {
