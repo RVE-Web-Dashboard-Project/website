@@ -1,11 +1,13 @@
-import { Box, FormControl, MenuItem, Select, SelectChangeEvent, styled, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, MenuItem, Select, SelectChangeEvent, styled, TextField, Typography } from "@mui/material";
 import { ReactNode, useState } from "react";
 
 import { useGetOrFetchCommands } from "../../repository/commands/useGetOrFetchCommands";
+import useSelectedNodesSelector from "../../repository/redux/selectors/useSelectedNodesSelector";
 import { Command, CommandParameter } from "../../repository/types/command";
 
 export const CommandSelection = () => {
   const { commands, error } = useGetOrFetchCommands();
+  const selectedNodes = useSelectedNodesSelector();
   const [selectedCommand, setSelectedCommand] = useState<Command | null>(null);
   const [parameters, setParameters] = useState<Record<string, number> | null>(null);
 
@@ -24,6 +26,8 @@ export const CommandSelection = () => {
     setParameters((prev) => ({ ...prev, [absoluteParamId]: value }));
   };
 
+  const isButtonDisabled = selectedCommand === null || Object.keys(selectedNodes).length === 0;
+
   return (
     <Box minWidth="250px">
       <Typography variant="h5" mb={2}>Command</Typography>
@@ -32,6 +36,7 @@ export const CommandSelection = () => {
           id="command-select"
           value={selectedCommand?.id.toString() ?? ""}
           onChange={onSelectChange}
+          required
           disabled={commands.length === 0 || error !== null}
         >
           {commands.map((command) => (
@@ -49,9 +54,12 @@ export const CommandSelection = () => {
             value={parameters?.[`${selectedCommand?.id}-${parameter.id}`]}
             onChange={onParameterValueChange}
           />
-        ))
-        }
+        ))}
 
+        <Button variant="contained" color="primary" disabled={isButtonDisabled} fullWidth>
+          Send
+        </Button>
+        {JSON.stringify(selectedNodes, undefined, 1)}
       </FormControl>
     </Box>
   );
