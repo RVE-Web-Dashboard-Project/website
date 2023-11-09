@@ -1,5 +1,5 @@
 import { Box, Button, FormControl, MenuItem, Select, SelectChangeEvent, styled, TextField, Typography } from "@mui/material";
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 
 import { useGetOrFetchCommands } from "../../repository/commands/useGetOrFetchCommands";
 import useSelectedNodesSelector from "../../repository/redux/selectors/useSelectedNodesSelector";
@@ -107,6 +107,12 @@ const ParameterTextField = ({ parameter, value, onChange }: ParameterTextFieldPr
       onChange(parameter.id, null);
     }
   };
+
+  useEffect(() => {
+    if (value === undefined && currentTextValue === parameter.default.toString()) {
+      onChange(parameter.id, parameter.default);
+    }
+  }, [onChange, parameter.default, parameter.id, value, currentTextValue]);
 
   function checkValue(inputValue: string) {
     if (inputValue.trim().length === 0) {
