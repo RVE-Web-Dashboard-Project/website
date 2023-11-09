@@ -1,5 +1,5 @@
 import { Box, Button, FormControl, MenuItem, Select, SelectChangeEvent, styled, TextField, Typography } from "@mui/material";
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 
 import { useGetOrFetchCommands } from "../../repository/commands/useGetOrFetchCommands";
 import useSelectedNodesSelector from "../../repository/redux/selectors/useSelectedNodesSelector";
@@ -9,7 +9,20 @@ export const CommandSelection = () => {
   const { commands, error } = useGetOrFetchCommands();
   const selectedNodes = useSelectedNodesSelector();
   const [selectedCommand, setSelectedCommand] = useState<Command | null>(null);
-  const [parameters, setParameters] = useState<Record<string, number> | null>(null);
+  const [parameters, setParameters] = useState<Record<string, number>>({});
+
+  const checkParameterValues = useMemo(() => {
+    if (selectedCommand === null) {
+      return false;
+    }
+    for (const parameter of selectedCommand.parameters) {
+      const value = parameters[`${selectedCommand.id}-${parameter.id}`];
+      if (value === undefined || value === null) {
+        return false;
+      }
+    }
+    return true;
+  }, [selectedCommand, parameters]);
 
   if (error) {
     return <Typography variant="h6" color="error">{error}</Typography>;
@@ -21,12 +34,19 @@ export const CommandSelection = () => {
     setSelectedCommand(command ?? null);
   };
 
-  const onParameterValueChange = (parameterId: number, value: number) => {
+  const onParameterValueChange = (parameterId: number, value: number | null) => {
     const absoluteParamId = `${selectedCommand?.id}-${parameterId}`;
-    setParameters((prev) => ({ ...prev, [absoluteParamId]: value }));
+    if (value === null) {
+      // reset parameter
+      const { [absoluteParamId]: _, ...rest } = parameters ?? {};
+      setParameters(rest);
+    } else {
+      setParameters((prev) => ({ ...prev, [absoluteParamId]: value }));
+    }
   };
 
-  const isButtonDisabled = selectedCommand === null || Object.keys(selectedNodes).length === 0;
+
+  const isButtonDisabled = selectedCommand === null || Object.keys(selectedNodes).length === 0 || !checkParameterValues;
 
   return (
     <Box minWidth="250px">
@@ -51,7 +71,7 @@ export const CommandSelection = () => {
           <ParameterTextField
             key={`${selectedCommand?.id}-${parameter.id}`}
             parameter={parameter}
-            value={parameters?.[`${selectedCommand?.id}-${parameter.id}`]}
+            value={parameters[`${selectedCommand?.id}-${parameter.id}`]}
             onChange={onParameterValueChange}
           />
         ))}
@@ -59,7 +79,6 @@ export const CommandSelection = () => {
         <Button variant="contained" color="primary" disabled={isButtonDisabled} fullWidth>
           Send
         </Button>
-        {JSON.stringify(selectedNodes, undefined, 1)}
       </FormControl>
     </Box>
   );
@@ -73,29 +92,46 @@ const MenuItemCaption = styled(Typography)(({ theme }) => ({
 interface ParameterTextFieldProps {
   parameter: CommandParameter;
   value?: number;
-  onChange: (parameterId: number, value: number) => void;
+  onChange: (parameterId: number, value: number | null) => void;
 }
 
 const ParameterTextField = ({ parameter, value, onChange }: ParameterTextFieldProps) => {
   const [currentTextValue, setCurrentTextValue] = useState((value ?? parameter.default).toString());
+  const [errorText, setErrorText] = useState<string | null>(null);
 
   const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentTextValue(e.target.value);
     if (checkValue(e.target.value)) {
-      console.log("changing to", Number(e.target.value));
       onChange(parameter.id, Number(e.target.value));
+    } else {
+      onChange(parameter.id, null);
     }
   };
 
   function checkValue(inputValue: string) {
-    if (parameter.type === "int") {
-      return Number.isInteger(Number(inputValue));
-    } else {
-      return !Number.isNaN(Number(inputValue));
+    if (inputValue.trim().length === 0) {
+      setErrorText("Value must be a number");
+      return false;
     }
+    if (parameter.type === "int" && (!Number.isInteger(Number(inputValue)) || inputValue.includes("."))) {
+      setErrorText("Value must be an integer");
+      return false;
+    }
+    if (parameter.type === "float" && Number.isNaN(Number(inputValue))) {
+      setErrorText("Value must be a number");
+      return false;
+    }
+    if (parameter.minValue !== undefined && Number(inputValue) < parameter.minValue) {
+      setErrorText(`Value must be at least ${parameter.minValue}`);
+      return false;
+    }
+    if (parameter.maxValue !== undefined && Number(inputValue) > parameter.maxValue) {
+      setErrorText(`Value must be at most ${parameter.maxValue}`);
+      return false;
+    }
+    setErrorText(null);
+    return true;
   }
-
-  const shouldShowError = !checkValue(currentTextValue);
 
   return (
     <TextField
@@ -106,8 +142,8 @@ const ParameterTextField = ({ parameter, value, onChange }: ParameterTextFieldPr
       onChange={onValueChange}
       size="small"
       color="secondary"
-      error={shouldShowError}
-      helperText={shouldShowError ? "Invalid value" : ""}
+      error={errorText !== null}
+      helperText={errorText}
       required
     />
   );
