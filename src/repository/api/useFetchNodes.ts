@@ -4,10 +4,7 @@ import useSetNodesMap from "../redux/dispatchs/useSetNodesMap";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 import { CoordinatorsState } from "../redux/slices/coordinatorsSlice";
 
-interface ApiResponse {
-  success: true,
-  data: {[key: number]: number[]}
-}
+type ApiResponse = {[key: number]: number[]};
 
 export function useFetchNodes() {
   const [error, setError] = useState<string | null>(null);
@@ -38,9 +35,9 @@ export function useFetchNodes() {
         });
       if (response.status === 200) {
         const json = await response.json() as ApiResponse;
-        setData(json.data);
+        setData(json);
         setNodesMap(
-          Object.entries(json.data).reduce((acc, [key, value]) => {
+          Object.entries(json).reduce((acc, [key, value]) => {
             acc[parseInt(key)] = {
               selected: false,
               nodes: value.reduce((nAcc, nodeId) => {

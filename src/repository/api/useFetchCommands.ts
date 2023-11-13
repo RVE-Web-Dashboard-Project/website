@@ -4,10 +4,7 @@ import useSetCommands from "../redux/dispatchs/useSetCommands";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 import { Command } from "../types/command";
 
-interface ApiResponse {
-  success: true,
-  data: Command[],
-}
+type ApiResponse = Command[];
 
 export function useFetchCommands() {
   const [error, setError] = useState<string | null>(null);
@@ -39,8 +36,8 @@ export function useFetchCommands() {
       );
       if (response.status === 200) {
         const json = await response.json() as ApiResponse;
-        setData(json.data);
-        setCommands(json.data);
+        setData(json);
+        setCommands(json);
       } else if (response.status === 401) {
         setError("Error: Unauthorized");
       } else {

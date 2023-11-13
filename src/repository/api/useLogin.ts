@@ -5,14 +5,11 @@ import useSetToken from "../redux/dispatchs/useSetToken";
 import useSetUser from "../redux/dispatchs/useSetUser";
 
 interface LoginJSONResponse {
-  success: true,
-  data: {
-    token: string;
-    id: string;
-    name: string;
-    isAdmin: boolean;
-    createdAt: Date;
-  }
+  token: string;
+  id: string;
+  name: string;
+  isAdmin: boolean;
+  createdAt: Date;
 }
 
 export function useLogin() {
@@ -41,12 +38,12 @@ export function useLogin() {
       if (response.status === 200) {
         const json = await response.json() as LoginJSONResponse;
         setData(json);
-        setTokenCommand(json.data.token);
+        setTokenCommand(json.token);
         setUserCommand({
-          id: json.data.id,
-          name: json.data.name,
-          isAdmin: json.data.isAdmin,
-          createdAt: json.data.createdAt,
+          id: json.id,
+          name: json.name,
+          isAdmin: json.isAdmin,
+          createdAt: json.createdAt,
         });
       } else if (response.status === 401) {
         setErrorCode(401);
