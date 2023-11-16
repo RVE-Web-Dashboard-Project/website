@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import GeneralLayout from "../pages/layouts/GeneralLayout";
-import { loginRoute } from "./routes/loginRoute";
+import { authenticationRoutes } from "./routes/authenticationRoutes";
 import { userRoutes } from "./routes/userRoutes";
 
 const router = createBrowserRouter([
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   },
   {
     children: [
-      ...loginRoute,
+      ...authenticationRoutes,
     ],
   },
 ]);
