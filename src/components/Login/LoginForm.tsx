@@ -21,6 +21,8 @@ export default function LoginForm() {
       return null;
     } else if (error === 400) {
       return "Invalid username or password";
+    } else if (error === 503) {
+      return "Unable to reach server";
     } else {
       console.error(`Something went wrong while logging in: HTTP code ${error}`);
       return "Something went wrong while logging in";

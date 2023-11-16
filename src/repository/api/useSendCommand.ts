@@ -45,7 +45,7 @@ export function useSendCommand() {
         setErrorCode(response.status);
       }
     } catch (err) {
-      setErrorCode(500);
+      setErrorCode(503);
       console.error(err);
     } finally {
       setLoading(false);
