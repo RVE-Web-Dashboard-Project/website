@@ -1,16 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { AuthenticatedUserObject } from "../../types/user";
+import { AuthenticatedUserObject, InvitationInfo } from "../../types/user";
 import { getTokenFromStorage } from "../middlewares/localStorageMiddleware";
 
 export interface UserState {
   user: AuthenticatedUserObject | null;
   token: string | null;
+  invitations: Record<string, InvitationInfo>;
 }
 
 const initialState: UserState = {
   user: null,
   token: getTokenFromStorage(),
+  invitations: {},
 };
 
 
@@ -28,9 +30,12 @@ export const userSlice = createSlice({
     setToken: (state, action: PayloadAction<UserState["token"]>) => {
       state.token = action.payload;
     },
+    setInvitation: (state, action: PayloadAction<InvitationInfo>) => {
+      state.invitations[action.payload.id] = action.payload;
+    },
   },
 });
 
-export const { login, logout, setToken } = userSlice.actions;
+export const { login, logout, setToken, setInvitation } = userSlice.actions;
 
 export default userSlice.reducer;
