@@ -1,5 +1,5 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, SxProps, Theme } from "@mui/material";
+import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, SxProps, Theme } from "@mui/material";
 import { useState } from "react";
 
 interface PasswordInputProps {
@@ -9,10 +9,11 @@ interface PasswordInputProps {
   onInput?: Parameters<(typeof OutlinedInput)>[0]["onInput"];
   disabled?: boolean;
   required?: boolean;
+  errorLabel?: string;
   controlSx?: SxProps<Theme>;
 }
 
-export default function PasswordInput({ id, label, value, onInput, disabled, required, controlSx }: PasswordInputProps) {
+export default function PasswordInput({ id, label, value, onInput, disabled, required, errorLabel, controlSx }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -45,7 +46,13 @@ export default function PasswordInput({ id, label, value, onInput, disabled, req
         value={value}
         onInput={onInput}
         disabled={disabled}
+        error={Boolean(errorLabel)}
       />
+      {Boolean(errorLabel) && (
+        <FormHelperText error id={`${id}-error`}>
+          {errorLabel}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 }
