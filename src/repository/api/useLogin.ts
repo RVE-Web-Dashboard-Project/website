@@ -3,19 +3,16 @@ import { useState } from "react";
 import useLogout from "../redux/dispatchs/useLogout";
 import useSetToken from "../redux/dispatchs/useSetToken";
 import useSetUser from "../redux/dispatchs/useSetUser";
+import { AuthenticatedUserObject } from "../types/user";
 
-interface LoginJSONResponse {
+interface ApiResponse extends AuthenticatedUserObject {
   token: string;
-  id: string;
-  name: string;
-  isAdmin: boolean;
-  createdAt: Date;
 }
 
 export function useLogin() {
   const [errorCode, setErrorCode] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<LoginJSONResponse | null>(null);
+  const [data, setData] = useState<ApiResponse | null>(null);
 
   const { setTokenCommand } = useSetToken();
   const { setUserCommand } = useSetUser();
@@ -36,7 +33,7 @@ export function useLogin() {
           body: JSON.stringify({ username, password }),
         });
       if (response.status === 200) {
-        const json = await response.json() as LoginJSONResponse;
+        const json = await response.json() as ApiResponse;
         setData(json);
         setTokenCommand(json.token);
         setUserCommand({
@@ -59,5 +56,5 @@ export function useLogin() {
     }
   }
 
-  return { loginCommand, error: errorCode, loading, data };
+  return { loginCommand, errorCode, loading, data };
 }

@@ -9,7 +9,7 @@ export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { loginCommand, error, loading } = useLogin();
+  const { loginCommand, errorCode, loading } = useLogin();
 
   const onSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -17,18 +17,18 @@ export default function LoginForm() {
   };
 
   const errorMessage = useMemo(() => {
-    if (error === null) {
+    if (errorCode === null) {
       return null;
-    } else if (error === 400) {
+    } else if (errorCode === 400) {
       return "Invalid username or password";
-    } else if (error === 503) {
+    } else if (errorCode === 503) {
       return "Unable to reach server";
     } else {
-      console.error(`Something went wrong while logging in: HTTP code ${error}`);
+      console.error(`Something went wrong while logging in: HTTP code ${errorCode}`);
       return "Something went wrong while logging in";
     }
   }
-  , [error]);
+  , [errorCode]);
 
   const isButtonDisabled = loading || !username.trim() || !password.trim();
 
