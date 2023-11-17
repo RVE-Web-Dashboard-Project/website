@@ -2,9 +2,9 @@ import { useMemo } from "react";
 
 export enum PasswordChecks {
   HAS_NUMBER = "HAS_NUMBER",
+  HAS_SPECIAL_CHAR = "HAS_SPECIAL_CHAR",
   HAS_UPPERCASE = "HAS_UPPERCASE",
   HAS_LOWERCASE = "HAS_LOWERCASE",
-  HAS_SPECIAL_CHAR = "HAS_SPECIAL_CHAR",
   IS_12_CHARS = "IS_12_CHARS",
 }
 
@@ -31,11 +31,11 @@ const checks = [
   },
   {
     name: PasswordChecks.HAS_SPECIAL_CHAR,
-    regex: /[!@#$%^&*()]+/,
+    regex: /\W+/,
   },
   {
     name: PasswordChecks.IS_12_CHARS,
-    regex: /.{21,}/,
+    regex: /.{12,}/,
   },
 ];
 
