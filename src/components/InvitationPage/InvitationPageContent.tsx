@@ -26,18 +26,18 @@ function InternalInvitationPageContent({ invitationId }: { invitationId: string 
     setAcceptedInvitation(true);
   };
 
-  if (loading) {
+  if (loading || invitation === undefined) {
     return <CircularProgress />;
   }
 
   if (error) {
     return (
-      <InvalidCodeError />
+      <InvalidCodeError errorCode={error} />
     );
   }
 
   if (!acceptedInvitation) {
-    return <InvitationPageExplanation acceptInvitation={acceptInvitation} />;
+    return <InvitationPageExplanation invitation={invitation} acceptInvitation={acceptInvitation} />;
   }
 
   return (
@@ -47,10 +47,12 @@ function InternalInvitationPageContent({ invitationId }: { invitationId: string 
   );
 }
 
-function InvalidCodeError() {
+function InvalidCodeError({ errorCode }: {errorCode?: number}) {
+  const txt = errorCode === 503 ? "Unable to reach server" : "Invalid invitation link";
+
   return (
     <Stack useFlexGap spacing={2}>
-      <Typography variant="h6" color="error">Invalid invitation link</Typography>
+      <Typography variant="h6" color="error">{txt}</Typography>
       <Button component={Link} variant="contained" to="/login">Back to login page</Button>
     </Stack>
   );
