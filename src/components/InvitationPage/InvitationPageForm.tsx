@@ -1,6 +1,7 @@
 import { Button, FormControl, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
+import useCheckPasswordStrength, { PasswordChecksLabels } from "../../repository/commands/useCheckPasswordStrength";
 import { InvitationInfo } from "../../repository/types/user";
 import PasswordInput from "../common/PasswordInput";
 
@@ -8,8 +9,6 @@ interface InvitationPageFormProps {
   invitation: InvitationInfo;
   createAccount(password: string): void;
 }
-
-const MIN_PASSWORD_LENGTH = 12;
 
 export function InvitationPageForm({ invitation, createAccount }: InvitationPageFormProps) {
   const [password, setPassword] = useState("");
@@ -25,8 +24,10 @@ export function InvitationPageForm({ invitation, createAccount }: InvitationPage
 
   const passwordMatch = password === passwordConfirmation;
   const showMismatchError = passwordConfirmation.length > 0 && !passwordMatch;
-  const isPasswordTooShort = password.length > 0 && password.length < MIN_PASSWORD_LENGTH;
-  const isButtonDisabled = password.length === 0 || passwordConfirmation.length === 0 || !passwordMatch;
+  const { isStrong, failedChecks } = useCheckPasswordStrength(password);
+  const isButtonDisabled = !passwordMatch || !isStrong;
+
+  const errorLabel = failedChecks.length > 0 ? PasswordChecksLabels[failedChecks[0].name] : undefined;
 
   return (
     <Stack useFlexGap spacing={3}>
@@ -41,7 +42,7 @@ export function InvitationPageForm({ invitation, createAccount }: InvitationPage
           label="Password *"
           value={password}
           onInput={ e => setPassword((e.target as HTMLTextAreaElement).value)}
-          errorLabel={isPasswordTooShort ? `Password must be at least ${MIN_PASSWORD_LENGTH} characters long` : undefined}
+          errorLabel={errorLabel}
           required
         />
 
