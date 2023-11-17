@@ -8,9 +8,10 @@ import PasswordInput from "../common/PasswordInput";
 interface InvitationPageFormProps {
   invitation: InvitationInfo;
   createAccount(password: string): void;
+  acceptationErrorCode: number | null;
 }
 
-export function InvitationPageForm({ invitation, createAccount }: InvitationPageFormProps) {
+export function InvitationPageForm({ invitation, createAccount, acceptationErrorCode }: InvitationPageFormProps) {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
@@ -59,6 +60,8 @@ export function InvitationPageForm({ invitation, createAccount }: InvitationPage
           Create
         </Button>
       </FormControl>
+
+      {acceptationErrorCode && <Typography variant="caption" color="error">Something went wrong during your account creation.</Typography>}
     </Stack>
   );
 }
