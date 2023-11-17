@@ -2,6 +2,7 @@ import { Button, CircularProgress, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { useAcceptInvitation } from "../../repository/api/useAcceptInvitation";
 import { useGetOrFetchInvitation } from "../../repository/commands/useGetOrFetchInvitation";
 import { InvitationPageRouteParams } from "../../router/routes/authenticationRoutes";
 import { InvitationPageForm } from "./InvitationPageForm";
@@ -21,17 +22,18 @@ export function InvitationPageContent() {
 
 function InternalInvitationPageContent({ invitationId }: { invitationId: string }) {
   const [acceptedInvitation, setAcceptedInvitation] = useState(false);
-  const { invitation, error, loading } = useGetOrFetchInvitation(invitationId);
+  const { invitation, error, loading: loadingInvitation } = useGetOrFetchInvitation(invitationId);
+  const { acceptInvitation: acceptInvitationCommand, loading: loadingAcceptation, errorCode: acceptInvitationErrorCode } = useAcceptInvitation();
 
   function acceptInvitation() {
     setAcceptedInvitation(true);
   }
 
   function createAccount(password: string) {
-    console.debug("accepted invitation with password", password);
+    acceptInvitationCommand(invitationId, { password });
   }
 
-  if (loading) {
+  if (loadingInvitation || loadingAcceptation) {
     return <CircularProgress />;
   }
 
@@ -46,7 +48,7 @@ function InternalInvitationPageContent({ invitationId }: { invitationId: string 
   }
 
   return (
-    <InvitationPageForm invitation={invitation} createAccount={createAccount} />
+    <InvitationPageForm invitation={invitation} createAccount={createAccount} acceptationErrorCode={acceptInvitationErrorCode} />
   );
 }
 
