@@ -15,6 +15,7 @@ export default function useWebsocket(token: string) {
     {
       protocols: ["Authorization", token],
       onOpen: () => console.log("WS: new connection established"),
+      onClose: () => console.log("WS: connection closed"),
       onMessage: onReceive,
       shouldReconnect: (closeEvent) => true,
       reconnectInterval: 3000,

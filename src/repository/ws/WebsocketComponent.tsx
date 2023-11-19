@@ -14,7 +14,7 @@ export const WebsocketComponent = () => {
 
 const ActualWebsocket = ({ token }: {token: string}) => {
   const { connectionStatus } = useWebsocket(token);
-  console.debug("WS: connection is ", connectionStatus);
+  console.debug("WS: connection is", connectionStatus);
 
   return null;
 };
