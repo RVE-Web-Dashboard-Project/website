@@ -32,7 +32,7 @@ export const CommandSelection = () => {
   };
 
   return (
-    <Box minWidth="250px">
+    <Box minWidth="30%">
       <Typography variant="h5" mb={2}>Command</Typography>
       <FormControl fullWidth size="small" color="secondary" sx={{ gap: 2 }}>
         <Select

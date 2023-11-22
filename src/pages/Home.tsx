@@ -2,6 +2,7 @@ import { Stack, styled, Typography } from "@mui/material";
 import { Fragment } from "react";
 
 import { CommandSelection } from "../components/Home/CommandSelection";
+import { Console } from "../components/Home/Console/Console";
 import { CoordinatorsSelection } from "../components/Home/CoordinatorsSelection";
 import { NodesSelection } from "../components/Home/NodesSelection";
 
@@ -21,6 +22,7 @@ export default function Home() {
 
         <CommandSectionContainer>
           <CommandSelection />
+          <Console />
         </CommandSectionContainer>
       </Stack>
     </Fragment>
