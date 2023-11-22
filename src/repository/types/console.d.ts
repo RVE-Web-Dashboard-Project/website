@@ -1,6 +1,7 @@
 export interface ConsoleMessage {
+  uuid: string;
   date: Date;
   type: "out" | "success" | "error";
-  author: string;
+  source: string;
   message: string;
 }
