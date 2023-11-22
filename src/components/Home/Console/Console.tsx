@@ -19,7 +19,6 @@ const ConsoleContainer = styled(Box)(({ theme }) => ({
   flex: 1,
   maxHeight: "50vh",
   overflowY: "auto",
-  margin: "0 5%",
   border: "1px solid",
   borderRadius: 3,
   borderColor: theme.palette.grey[800],
