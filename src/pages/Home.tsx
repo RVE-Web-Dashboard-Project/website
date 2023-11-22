@@ -14,7 +14,7 @@ export default function Home() {
       </Typography>
 
       <Stack spacing={2} minHeight="100%" width="100%" useFlexGap>
-        <Stack direction={{ xs: "column", md: "row" }} spacing={2} width="100%" paddingX="5%" useFlexGap>
+        <Stack direction={{ xs: "column", md: "row" }} spacing={{ xs: 2, md: 8 }} width="100%" paddingX="5%" useFlexGap>
           <CoordinatorsSelection />
 
           <NodesSelection />
@@ -32,6 +32,7 @@ export default function Home() {
 const CommandSectionContainer = styled(Stack)(({ theme }) => ({
   flex: 1,
   flexDirection: "row",
+  gap: theme.spacing(3),
   margin: "0 5% 3%",
   border: "1px solid",
   borderRadius: 35,
