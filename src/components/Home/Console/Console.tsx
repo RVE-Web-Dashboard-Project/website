@@ -1,33 +1,15 @@
 import { Box, styled } from "@mui/material";
 
+import useConsoleMessagesSelector from "../../../repository/redux/selectors/useConsoleMessagesSelector";
+import { ConsoleMessageRow } from "./ConsoleMessageRow";
+
 export const Console = () => {
-  const text = [
-    "Hello world",
-    "This is a test",
-    // "Hello world",
-    // "This is a test",
-    // "Hello world",
-    // "This is a test",
-    // "Hello world",
-    // "This is a test",
-    // "Hello world",
-    // "This is a test",
-    // "Hello world",
-    // "This is a test",
-    // "Hello world",
-    // "This is a test",
-    // "Hello world",
-    // "This is a test",
-    // "Hello world",
-    // "This is a test",
-    // "Hello world",
-    // "This is a test",
-  ];
+  const messages = useConsoleMessagesSelector();
 
   return (
     <ConsoleContainer>
-      {text.map((line, index) => (
-        <Box key={index}>{line}</Box>
+      {messages.map((message) => (
+        <ConsoleMessageRow key={message.uuid} message={message} />
       ))}
     </ConsoleContainer>
   );
