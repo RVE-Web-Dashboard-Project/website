@@ -36,10 +36,14 @@ export const SendCommandButton = ({ command, parameterValues }: SendCommandButto
 
   const onClick = () => {
     if (!loading && command !== null && sanitizedParameters !== null) {
+      const nodeIds = command.targetType === "node"
+        ? Object.values(selectedNodes).reduce((acc, val) => [...acc, ...val], [] as number[])
+        : undefined;
+
       sendCommand({
         commandId: command.id,
         coordinatorIds: Object.keys(selectedNodes).map((id) => Number(id)),
-        nodeIds: Object.values(selectedNodes).reduce((acc, val) => [...acc, ...val], [] as number[]),
+        nodeIds: nodeIds,
         parameters: sanitizedParameters.length === 0 ? undefined : sanitizedParameters,
       });
     }
