@@ -1,8 +1,9 @@
 import { useState } from "react";
 
+import useAddConsoleMessage from "../redux/dispatchs/useAddConsoleMessage";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 
-interface SendCommandParams {
+export interface SendCommandParams {
   commandId: number;
   coordinatorIds: number[];
   nodeIds?: number[];
@@ -15,6 +16,7 @@ export function useSendCommand() {
   const [success, setSuccess] = useState(false);
 
   const token = useTokenSelector();
+  const { addSendCommandMessage } = useAddConsoleMessage();
 
   async function sendCommand(params: SendCommandParams) {
     setLoading(true);
@@ -41,6 +43,7 @@ export function useSendCommand() {
       );
       if (response.status === 200 || response.status === 202) {
         setSuccess(true);
+        addSendCommandMessage(params);
       } else {
         setErrorCode(response.status);
       }
