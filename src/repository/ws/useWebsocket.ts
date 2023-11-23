@@ -6,7 +6,7 @@ import useAddConsoleMessage from "../redux/dispatchs/useAddConsoleMessage";
 
 export default function useWebsocket(token: string) {
   const didUnmount = useRef(false);
-  const socketUrl = process.env.REACT_APP_API_URL.replace("http", "ws");
+  const socketUrl = import.meta.env.VITE_APP_API_URL.replace("http", "ws");
 
   const { addMQTTConnectionUpdateMessage } = useAddConsoleMessage();
 

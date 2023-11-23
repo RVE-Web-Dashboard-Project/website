@@ -26,7 +26,7 @@ export function useFetchCommands() {
 
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/commands",
+        import.meta.env.VITE_APP_API_URL + "/commands",
         {
           method: "GET",
           headers: {

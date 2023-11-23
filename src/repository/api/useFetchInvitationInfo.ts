@@ -18,7 +18,7 @@ export function useFetchInvitationInfo() {
 
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/user/invitation/" + invitationId,
+        import.meta.env.VITE_APP_API_URL + "/user/invitation/" + invitationId,
         {
           method: "GET",
         },

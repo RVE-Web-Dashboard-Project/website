@@ -17,7 +17,7 @@ export function useLogout() {
 
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/user/logout",
+        import.meta.env.VITE_APP_API_URL + "/user/logout",
         {
           method: "POST",
           headers: {

@@ -24,7 +24,7 @@ export function useLogin() {
 
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/user/login",
+        import.meta.env.VITE_APP_API_URL + "/user/login",
         {
           method: "POST",
           headers: {
