@@ -2,6 +2,7 @@ import shortUUID from "short-uuid";
 
 import { SendCommandParams } from "../../api/useSendCommand";
 import { ConsoleMessage } from "../../types/console";
+import { WsEventMQTTConnectionUpdate } from "../../ws/wsEvents";
 import { useAppDispatch } from "../hooks";
 import useCommandsSelector from "../selectors/useCommandsSelector";
 import { addMessage } from "../slices/commandsSlice";
@@ -57,5 +58,14 @@ export default function useAddConsoleMessage() {
     });
   }
 
-  return { addRawConsoleMessage, addSendCommandMessage };
+  async function addMQTTConnectionUpdateMessage(status: WsEventMQTTConnectionUpdate["status"]) {
+    await addRawConsoleMessage({
+      date: new Date().toISOString(),
+      type: "out",
+      source: "Server",
+      message: `MQTT connection status: ${status}`,
+    });
+  }
+
+  return { addRawConsoleMessage, addSendCommandMessage, addMQTTConnectionUpdateMessage };
 }

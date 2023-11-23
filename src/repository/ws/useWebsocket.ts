@@ -1,10 +1,14 @@
 import { useEffect, useRef } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
+import useAddConsoleMessage from "../redux/dispatchs/useAddConsoleMessage";
+
 
 export default function useWebsocket(token: string) {
   const didUnmount = useRef(false);
   const socketUrl = process.env.REACT_APP_API_URL.replace("http", "ws");
+
+  const { addMQTTConnectionUpdateMessage } = useAddConsoleMessage();
 
   useEffect(() => () => {
     didUnmount.current = true;
@@ -25,6 +29,10 @@ export default function useWebsocket(token: string) {
   function onReceive(event: WebSocketEventMap["message"]) {
     const data = JSON.parse(event.data);
     console.debug("Received message", data);
+
+    if (data.type === "mqtt_connection_update") {
+      addMQTTConnectionUpdateMessage(data.status);
+    }
   }
 
   const connectionStatus = {
