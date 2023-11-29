@@ -1,10 +1,11 @@
 import { PersonOutlineOutlined } from "@mui/icons-material";
-import { AppBar, Box, Button, Container, IconButton, Link, Menu, MenuItem, Toolbar, Tooltip, Typography, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Container, IconButton, Link, Menu, MenuItem, styled, Toolbar, Tooltip, Typography, useTheme } from "@mui/material";
 import React, { useMemo } from "react";
 
 import { useLogout } from "../../repository/api/useLogout";
 import { useGetOrFetchMe } from "../../repository/commands/useGetOrFetchMe";
 import { WebsiteName } from "../../styles/theme";
+import { BrokerConnectionIcon } from "./BrokerConnectionIcon";
 
 export default function Appbar() {
   const { user } = useGetOrFetchMe();
@@ -40,7 +41,9 @@ export default function Appbar() {
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <SiteTitle />
 
-          <Box sx={{ flexGrow: 0 }}>
+          <RightIconsContainer>
+            <BrokerConnectionIcon />
+
             <Tooltip title={user?.name ?? "Profile"}>
               <IconButton
                 onClick={handleOpenUserMenu}
@@ -73,7 +76,7 @@ export default function Appbar() {
                 </MenuItem>
               )}
             </Menu>
-          </Box>
+          </RightIconsContainer>
 
         </Toolbar>
       </Container>
@@ -104,3 +107,14 @@ function SiteTitle() {
     </Button>
   );
 }
+
+const RightIconsContainer = styled(Box)(({ theme }) => ({
+  flexGrow: 0,
+  display: "flex",
+  alignItems: "center",
+  gap: theme.spacing(4),
+
+  [theme.breakpoints.down("md")]: {
+    gap: theme.spacing(1),
+  },
+}));
