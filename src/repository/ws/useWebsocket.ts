@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
+import { is } from "typia";
 
 import useAddConsoleMessage from "../redux/dispatchs/useAddConsoleMessage";
+import { WsEventMQTTConnectionUpdate } from "./wsEvents";
 
 
 export default function useWebsocket(token: string) {
@@ -30,8 +32,10 @@ export default function useWebsocket(token: string) {
     const data = JSON.parse(event.data);
     console.debug("Received message", data);
 
-    if (data.type === "mqtt_connection_update") {
+    if (is<WsEventMQTTConnectionUpdate>(data)) {
       addMQTTConnectionUpdateMessage(data.status);
+    } else {
+      console.warn("Received unknown message", data);
     }
   }
 
