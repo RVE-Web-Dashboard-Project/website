@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
 import useAddConsoleMessage from "../redux/dispatchs/useAddConsoleMessage";
+import { isWsEventMQTTConnectionUpdate } from "../types/checks";
 
 
 export default function useWebsocket(token: string) {
@@ -30,7 +31,7 @@ export default function useWebsocket(token: string) {
     const data = JSON.parse(event.data);
     console.debug("Received message", data);
 
-    if (data.type === "mqtt_connection_update") {
+    if (isWsEventMQTTConnectionUpdate(data)) {
       addMQTTConnectionUpdateMessage(data.status);
     }
   }
