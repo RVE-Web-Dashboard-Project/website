@@ -6,11 +6,13 @@ import { ConsoleMessage } from "../../types/console";
 export interface CommandsState {
   commands: Command[];
   messages: ConsoleMessage[];
+  brokerConnectionStatus: string | null;
 }
 
 const initialState: CommandsState = {
   commands: [],
   messages: [],
+  brokerConnectionStatus: null,
 };
 
 export const commandsSlice = createSlice({
@@ -26,9 +28,12 @@ export const commandsSlice = createSlice({
     resetConsole: (state) => {
       state.messages = [];
     },
+    setBrokerConnectionStatus: (state, action: PayloadAction<string>) => {
+      state.brokerConnectionStatus = action.payload;
+    },
   },
 });
 
-export const { setCommands, addMessage, resetConsole } = commandsSlice.actions;
+export const { setCommands, addMessage, resetConsole, setBrokerConnectionStatus } = commandsSlice.actions;
 
 export default commandsSlice.reducer;
