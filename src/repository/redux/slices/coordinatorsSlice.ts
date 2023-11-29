@@ -23,6 +23,10 @@ export const coordinatorsSlice = createSlice({
     setAllCoordinatorsSelection(state, action: PayloadAction<boolean>) {
       if (state.nodesMap) {
         for (const coordinatorId of Object.keys(state.nodesMap)) {
+          // if coordinator has no nodes, skip it
+          if (Object.keys(state.nodesMap[parseInt(coordinatorId)].nodes).length === 0) {
+            continue;
+          }
           state.nodesMap[parseInt(coordinatorId)].selected = action.payload;
           // if coordinator is unselected, also set all nodes to unselected
           if (!action.payload) {
