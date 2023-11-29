@@ -61,7 +61,7 @@ export default function useAddConsoleMessage() {
   async function addMQTTConnectionUpdateMessage(status: WsEventMQTTConnectionUpdate["status"]) {
     await addRawConsoleMessage({
       date: new Date().toISOString(),
-      type: "out",
+      type: status === "disconnected" ? "error" : "out",
       source: "Server",
       message: `MQTT connection status: ${status}`,
     });
