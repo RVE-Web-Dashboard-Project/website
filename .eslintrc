@@ -16,6 +16,9 @@
         "react-app",
         "react-app/jest"
     ],
+    "ignorePatterns": [
+        "**/generated/*.ts"
+    ],
     "rules": {
         "arrow-body-style": "warn",
         "arrow-spacing": [
