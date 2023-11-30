@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
+import useAddConsoleMessage from "../redux/dispatchs/useAddConsoleMessage";
 import useSetBrokerConnectionStatus from "../redux/dispatchs/useSetBrokerConnectionStatus";
-import { isWsEventMQTTConnectionUpdate } from "../types/checks";
+import { isMQTTResponse, isWsEventMQTTConnectionUpdate } from "../types/checks";
 
 
 export default function useWebsocket(token: string) {
@@ -10,6 +11,7 @@ export default function useWebsocket(token: string) {
   const socketUrl = process.env.REACT_APP_API_URL.replace("http", "ws");
 
   const { setBrokerConnectionStatus } = useSetBrokerConnectionStatus();
+  const { addMQTTResponseMessage } = useAddConsoleMessage();
 
   useEffect(() => () => {
     didUnmount.current = true;
@@ -33,7 +35,12 @@ export default function useWebsocket(token: string) {
 
     if (isWsEventMQTTConnectionUpdate(data)) {
       setBrokerConnectionStatus(data.status);
+      return;
     }
+    if (isMQTTResponse(data)) {
+      addMQTTResponseMessage(data);
+    }
+
   }
 
   const connectionStatus = {
