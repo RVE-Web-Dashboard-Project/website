@@ -8,13 +8,14 @@ const selectedNodesSelector = createSelector(
   (nodesMap) => {
     if (nodesMap === null) return {};
     return Object.fromEntries(
-      Object.entries(nodesMap).map(([coordId, coordObject]) => [
-        coordId,
-        Object.entries(coordObject.nodes)
-          .filter(([nodeId, isSelected]) => isSelected)
-          .map(([nodeId]) => Number(nodeId)),
-      ])
-        .filter(([, selectedNodes]) => selectedNodes.length > 0),
+      Object.entries(nodesMap)
+        .filter(([coordId, coordObject]) => coordObject.selected)
+        .map(([coordId, coordObject]) => [
+          coordId,
+          Object.entries(coordObject.nodes)
+            .filter(([nodeId, isSelected]) => isSelected)
+            .map(([nodeId]) => Number(nodeId)),
+        ]),
     );
   },
 );
