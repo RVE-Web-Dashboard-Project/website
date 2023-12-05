@@ -12,7 +12,7 @@ interface SendCommandButtonProps {
 }
 
 export const SendCommandButton = ({ command, parameterValues }: SendCommandButtonProps) => {
-  const selectedNodes = useSelectedNodesSelector();
+  const selectedNodesMap = useSelectedNodesSelector();
   const { sendCommand, loading, error, success } = useSendCommand();
 
   const sanitizedParameters: number[] | null = useMemo(() => {
@@ -30,12 +30,15 @@ export const SendCommandButton = ({ command, parameterValues }: SendCommandButto
     return result;
   }, [command, parameterValues]);
 
+  const selectedCoordinators = Object.keys(selectedNodesMap).map((id) => Number(id)).filter((id) => command?.targetType === "coordinator" || selectedNodesMap[id].length > 0);
+  const selectedNodes = Object.values(selectedNodesMap).reduce((acc, val) => [...acc, ...val], [] as number[]);
+
   const isNodeSelectionValid: boolean = useMemo(() => {
     if (command === null) {
       return false;
     }
     if (command.targetType === "node") {
-      return Object.keys(selectedNodes).length > 0;
+      return selectedNodes.length > 0;
     }
     return true;
   }, [command, selectedNodes]);
@@ -45,13 +48,10 @@ export const SendCommandButton = ({ command, parameterValues }: SendCommandButto
     return <Button variant="contained" color="primary" disabled fullWidth>Loading...</Button>;
   }
 
-  const selectedCoordinators = Object.keys(selectedNodes).map((id) => Number(id));
 
   const onClick = () => {
     if (!loading && command !== null && sanitizedParameters !== null) {
-      const nodeIds = command.targetType === "node"
-        ? Object.values(selectedNodes).reduce((acc, val) => [...acc, ...val], [] as number[])
-        : undefined;
+      const nodeIds = command.targetType === "node" ? selectedNodes : undefined;
 
       sendCommand({
         commandId: command.id,
