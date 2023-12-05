@@ -45,6 +45,8 @@ export const SendCommandButton = ({ command, parameterValues }: SendCommandButto
     return <Button variant="contained" color="primary" disabled fullWidth>Loading...</Button>;
   }
 
+  const selectedCoordinators = Object.keys(selectedNodes).map((id) => Number(id));
+
   const onClick = () => {
     if (!loading && command !== null && sanitizedParameters !== null) {
       const nodeIds = command.targetType === "node"
@@ -53,14 +55,14 @@ export const SendCommandButton = ({ command, parameterValues }: SendCommandButto
 
       sendCommand({
         commandId: command.id,
-        coordinatorIds: Object.keys(selectedNodes).map((id) => Number(id)),
+        coordinatorIds: selectedCoordinators,
         nodeIds: nodeIds,
         parameters: sanitizedParameters.length === 0 ? undefined : sanitizedParameters,
       });
     }
   };
 
-  const isButtonDisabled = command === null || !isNodeSelectionValid || sanitizedParameters === null;
+  const isButtonDisabled = command === null || !isNodeSelectionValid || selectedCoordinators.length === 0 || sanitizedParameters === null;
 
   return (
     <Stack useFlexGap spacing={0.5}>
