@@ -30,6 +30,17 @@ export const SendCommandButton = ({ command, parameterValues }: SendCommandButto
     return result;
   }, [command, parameterValues]);
 
+  const isNodeSelectionValid: boolean = useMemo(() => {
+    if (command === null) {
+      return false;
+    }
+    if (command.targetType === "node") {
+      return Object.keys(selectedNodes).length > 0;
+    }
+    return true;
+  }, [command, selectedNodes]);
+
+
   if (loading) {
     return <Button variant="contained" color="primary" disabled fullWidth>Loading...</Button>;
   }
@@ -49,7 +60,7 @@ export const SendCommandButton = ({ command, parameterValues }: SendCommandButto
     }
   };
 
-  const isButtonDisabled = command === null || Object.keys(selectedNodes).length === 0 || sanitizedParameters === null;
+  const isButtonDisabled = command === null || !isNodeSelectionValid || sanitizedParameters === null;
 
   return (
     <Stack useFlexGap spacing={0.5}>
