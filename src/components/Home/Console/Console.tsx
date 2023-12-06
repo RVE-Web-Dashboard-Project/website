@@ -1,10 +1,28 @@
-import { Box, styled } from "@mui/material";
+import { Box, Stack, styled } from "@mui/material";
+import { useState } from "react";
 
 import useConsoleMessagesSelector from "../../../repository/redux/selectors/useConsoleMessagesSelector";
+import { ConsoleFilter } from "./ConsoleFilter";
 import { ConsoleMessageRow } from "./ConsoleMessageRow";
 
 export const Console = () => {
-  const messages = useConsoleMessagesSelector();
+  const [filterText, setFilterText] = useState<string | null>(null);
+
+  return (
+    <Stack useFlexGap spacing={1} width={1}>
+      <ConsoleFilter text={filterText} onChange={setFilterText} />
+      <MessagesList filterText={filterText} />
+    </Stack>
+  );
+};
+
+const MessagesList = ({ filterText }: {filterText: string | null}) => {
+  const messages = useConsoleMessagesSelector().filter((message) => {
+    if (filterText === null) {
+      return true;
+    }
+    return message.message.toLowerCase().includes(filterText.toLowerCase());
+  });
 
   return (
     <ConsoleContainer>
