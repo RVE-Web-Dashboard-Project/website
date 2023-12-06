@@ -1,4 +1,4 @@
-import { Box, Stack, styled } from "@mui/material";
+import { Stack, styled } from "@mui/material";
 import { useState } from "react";
 
 import useConsoleMessagesSelector from "../../../repository/redux/selectors/useConsoleMessagesSelector";
@@ -33,7 +33,7 @@ const MessagesList = ({ filterText }: {filterText: string | null}) => {
   );
 };
 
-const ConsoleContainer = styled(Box)(({ theme }) => ({
+const ConsoleContainer = styled(Stack)(({ theme }) => ({
   flex: 1,
   minHeight: "min(200px, 50vh)",
   maxHeight: "50vh",
@@ -45,5 +45,6 @@ const ConsoleContainer = styled(Box)(({ theme }) => ({
 
   [theme.breakpoints.down("md")]: {
     flexDirection: "column",
+    gap: theme.spacing(1),
   },
 }));
