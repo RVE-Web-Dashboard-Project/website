@@ -16,13 +16,15 @@ export const ConsoleMessageRow = ({ message }: {message: ConsoleMessage}) => {
   const parsedDate = useMemo(() => new Date(message.date), [message.date]);
 
   return (
-    <Stack useFlexGap direction="row" spacing={1} alignItems="baseline">
-      <HourText>
-        {parsedDate.toLocaleTimeString()}
-      </HourText>
-      <SourceText color={color}>
-        {message.source + ":"}
-      </SourceText>
+    <Stack useFlexGap direction={{ xs: "column", md: "row" }} spacing={{ xs: 0, md: 1 }} alignItems="baseline">
+      <Stack useFlexGap direction="row" spacing={1}>
+        <HourText>
+          {parsedDate.toLocaleTimeString()}
+        </HourText>
+        <SourceText color={color}>
+          {message.source + ":"}
+        </SourceText>
+      </Stack>
       <Typography>
         {message.message}
       </Typography>
