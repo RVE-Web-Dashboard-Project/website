@@ -35,6 +35,7 @@ const MessagesList = ({ filterText }: {filterText: string | null}) => {
 
 const ConsoleContainer = styled(Box)(({ theme }) => ({
   flex: 1,
+  minHeight: "min(200px, 50vh)",
   maxHeight: "50vh",
   overflowY: "auto",
   border: "1px solid",
