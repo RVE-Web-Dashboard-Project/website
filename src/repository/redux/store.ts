@@ -11,10 +11,7 @@ const store = configureStore({
     coordinators: coordinatorsReducer,
     commands: commandsReducer,
   },
-  middleware: (getDefaultMiddleware) => [
-    ...getDefaultMiddleware(),
-    localStorageMiddleware.middleware,
-  ],
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
