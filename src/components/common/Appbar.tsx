@@ -16,7 +16,7 @@ export default function Appbar() {
     };
     if (user?.isAdmin) {
       defaultPages = {
-        "Administration": "/admin",
+        "Manage users": "/admin/users",
         ...defaultPages,
       };
     }
