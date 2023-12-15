@@ -1,6 +1,7 @@
 import { Stack, styled, Typography } from "@mui/material";
 import { Fragment } from "react";
 
+import { InvitationList } from "../components/ManageUsers/InvitationsList";
 import { UsersList } from "../components/ManageUsers/UsersList";
 
 export default function ManageUsers() {
@@ -15,7 +16,7 @@ export default function ManageUsers() {
           <UsersList />
         </ListContainer>
         <ListContainer>
-          <UsersList />
+          <InvitationList />
         </ListContainer>
       </Stack>
     </Fragment>
