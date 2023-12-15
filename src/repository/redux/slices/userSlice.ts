@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { AuthenticatedUserObject, InvitationInfo } from "../../types/user";
+import { InvitationInfo, UserObject } from "../../types/user";
 import { getTokenFromStorage } from "../middlewares/localStorageMiddleware";
 
 export interface UserState {
-  user: AuthenticatedUserObject | null;
+  user: UserObject | null;
   token: string | null;
   invitations: Record<string, InvitationInfo>;
 }

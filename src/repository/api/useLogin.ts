@@ -3,9 +3,9 @@ import { useState } from "react";
 import useLogout from "../redux/dispatchs/useLogout";
 import useSetToken from "../redux/dispatchs/useSetToken";
 import useSetUser from "../redux/dispatchs/useSetUser";
-import { AuthenticatedUserObject } from "../types/user";
+import { UserObject } from "../types/user";
 
-interface ApiResponse extends AuthenticatedUserObject {
+interface ApiResponse extends UserObject {
   token: string;
 }
 

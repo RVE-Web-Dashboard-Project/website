@@ -3,14 +3,14 @@ import { useState } from "react";
 import useLogout from "../redux/dispatchs/useLogout";
 import useSetUser from "../redux/dispatchs/useSetUser";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
-import { AuthenticatedUserObject } from "../types/user";
+import { UserObject } from "../types/user";
 
-type ApiResponse = AuthenticatedUserObject;
+type ApiResponse = UserObject;
 
 export function useFetchMe() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<AuthenticatedUserObject | null>(null);
+  const [data, setData] = useState<UserObject | null>(null);
 
   const token = useTokenSelector();
   const { setUserCommand } = useSetUser();

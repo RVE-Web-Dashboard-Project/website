@@ -1,8 +1,8 @@
-export interface AuthenticatedUserObject {
+export interface UserObject {
   id: number;
   name: string;
   isAdmin: boolean;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface InvitationInfo {
