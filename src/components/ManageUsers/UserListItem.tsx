@@ -13,7 +13,7 @@ export const UserListItem = ({ user, canDelete }: {user: UserObject, canDelete: 
         </Stack>
       }
       secondary={
-        "Created at: " + new Date(user.createdAt).toLocaleString("en", {
+        "Created at " + new Date(user.createdAt).toLocaleString("en", {
           year: "numeric",
           month: "short",
           day: "numeric",

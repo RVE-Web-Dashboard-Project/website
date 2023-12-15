@@ -15,19 +15,23 @@ export const InvitationListItem = ({ invite }: InvitationListItemProps) => (
           {invite.username}
         </Stack>
       }
-      secondary={
-        "Created at: " + new Date(invite.createdAt).toLocaleString("en", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      }
+      secondary={<InvitationSecondaryInfo invite={invite} />}
     />
     <ListItemSecondaryAction>
       <DeleteButton onClick={console.log} tooltip="Delete invitation" />
     </ListItemSecondaryAction>
   </ListItem>
 );
+
+const InvitationSecondaryInfo = ({ invite }: InvitationListItemProps) => {
+  const creationDateLabel = "Created at " + new Date(invite.createdAt).toLocaleString("en", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  if (!invite.inviter) return <span>{creationDateLabel}</span>;
+  return <span>{creationDateLabel} by <i>{invite.inviter}</i></span>;
+};
 
