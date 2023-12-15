@@ -8,7 +8,7 @@ export interface UserObject {
 export interface InvitationInfo {
   id: string;
   username: string;
-  inviter: string;
+  inviter?: string;
   inviterId: number;
   createdAt: string;
 }
