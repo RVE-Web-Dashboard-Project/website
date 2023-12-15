@@ -18,7 +18,7 @@ export const InvitationList = () => {
     if (!invitations) {
       return <CircularProgress color="secondary" />;
     }
-    const sortedInvitations = invitations.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+    const sortedInvitations = invitations.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
     return (
       <List >
