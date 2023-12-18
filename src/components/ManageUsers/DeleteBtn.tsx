@@ -1,16 +1,28 @@
 import { DeleteOutline } from "@mui/icons-material";
-import { IconButton, Tooltip } from "@mui/material";
+import { CircularProgress, IconButton, Tooltip } from "@mui/material";
 import { Fragment, useState } from "react";
 
 import { ConfirmationDialog } from "../common/ConfirmationDialog";
 
 interface DeleteButtonProps {
   onClick: () => void;
+  loading?: boolean;
   tooltip?: string;
+  confirmTitle?: string;
+  confirmMessage?: string;
 }
 
-export const DeleteButton = ({ onClick, tooltip }: DeleteButtonProps) => {
+export const DeleteButton = ({ onClick, loading, tooltip, confirmTitle, confirmMessage }: DeleteButtonProps) => {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const shouldShowConfirmation = !!confirmTitle && !!confirmMessage;
+
+  function handleButtonClick() {
+    if (shouldShowConfirmation) {
+      setIsConfirmationOpen(true);
+    } else {
+      onClick();
+    }
+  }
 
   function handleConfirm() {
     setIsConfirmationOpen(false);
@@ -20,13 +32,13 @@ export const DeleteButton = ({ onClick, tooltip }: DeleteButtonProps) => {
   return (
     <Fragment>
       <Tooltip title={tooltip}>
-        <IconButton size="small" sx={{ "&:hover": { color: "red" } }} onClick={() => setIsConfirmationOpen(true)}>
-          <DeleteOutline />
+        <IconButton size="small" sx={{ "&:hover": { color: "red" } }} disabled={loading} onClick={handleButtonClick}>
+          { loading ? <CircularProgress color="gray" /> : <DeleteOutline /> }
         </IconButton>
       </Tooltip>
       <ConfirmationDialog
-        title="Delete user"
-        message="Are you sure you want to delete this user?"
+        title={confirmTitle || ""}
+        message={confirmMessage || ""}
         open={isConfirmationOpen}
         onConfirm={handleConfirm}
         onCancel={() => setIsConfirmationOpen(false)}
