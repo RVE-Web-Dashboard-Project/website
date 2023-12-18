@@ -6,9 +6,27 @@ declare namespace NodeJS {
   }
 }
 
-declare module "*.svg" {
-  import React = require("react");
-  export const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
-  const src: string;
-  export default src;
+declare global {
+  declare module "@mui/material/styles" {
+    interface Palette {
+      gray: Palette["primary"];
+    }
+
+    interface PaletteOptions {
+      gray?: PaletteOptions["primary"];
+    }
+  }
+
+  declare module "@mui/material/Button" {
+    interface ButtonPropsColorOverrides {
+      gray: true;
+    }
+  }
+
+  declare module "*.svg" {
+    import React = require("react");
+    export const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
+    const src: string;
+    export default src;
+  }
 }
