@@ -4,7 +4,7 @@ import { UserObject } from "../../repository/types/user";
 import { DeleteButton } from "./DeleteBtn";
 
 export const UserListItem = ({ user, canDelete }: {user: UserObject, canDelete: boolean}) => (
-  <ListItem>
+  <ListItem sx={{ pl: 0 }}>
     <ListItemText
       primary={
         <Stack direction="row" spacing={1} alignItems="center" useFlexGap>

@@ -1,3 +1,4 @@
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { CircularProgress, Divider, List, Stack, Typography } from "@mui/material";
 import { Fragment } from "react";
 
@@ -36,8 +37,9 @@ export const InvitationList = () => {
 
   return (
     <Stack flex={1}>
-      <Typography variant="h5" noWrap>
-      Invitation list
+      <Typography variant="h5" noWrap sx={{ display: "flex", alignItems: "center" }}>
+        <MailOutlineIcon sx={{ mr: 1 }} />
+        Invitation list
       </Typography>
 
       <Content />
