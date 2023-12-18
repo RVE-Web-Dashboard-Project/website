@@ -9,7 +9,7 @@ export function useGetOrFetchMe() {
   const token = useTokenSelector();
   const user = useUserSelector();
 
-  if (user === null && token !== null && !loading && !error) {
+  if (!user && token !== null && !loading && !error) {
     fetchMeCommand();
   }
 
