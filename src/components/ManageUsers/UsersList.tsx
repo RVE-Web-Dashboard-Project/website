@@ -1,3 +1,4 @@
+import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import { CircularProgress, Divider, List, Stack, Typography } from "@mui/material";
 import { Fragment } from "react";
 
@@ -56,8 +57,9 @@ export const UsersList = () => {
 
   return (
     <Stack flex={1}>
-      <Typography variant="h5" noWrap>
-      User list
+      <Typography variant="h5" noWrap sx={{ display: "flex", alignItems: "center" }}>
+        <GroupOutlinedIcon sx={{ mr: 1 }} />
+        User list
       </Typography>
 
       <Content />

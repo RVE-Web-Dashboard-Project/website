@@ -8,7 +8,7 @@ interface InvitationListItemProps {
 }
 
 export const InvitationListItem = ({ invite }: InvitationListItemProps) => (
-  <ListItem>
+  <ListItem sx={{ pl: 0 }}>
     <ListItemText
       primary={
         <Stack direction="row" spacing={1} alignItems="center" useFlexGap>
