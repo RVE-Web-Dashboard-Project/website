@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import useSetUser from "../redux/dispatchs/useSetUser";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 import { UserObject } from "../types/user";
 
@@ -11,6 +12,7 @@ export function useFetchUsers() {
   const [data, setData] = useState<UserObject[] | null>(null);
 
   const token = useTokenSelector();
+  const { setUsersCommand } = useSetUser();
 
   async function fetchUsersCommand() {
     setLoading(true);
@@ -34,6 +36,7 @@ export function useFetchUsers() {
       if (response.status === 200) {
         const json = await response.json() as ApiResponse;
         setData(json);
+        setUsersCommand(json);
       } else if (response.status === 401) {
         setError("Invalid token");
       } else {

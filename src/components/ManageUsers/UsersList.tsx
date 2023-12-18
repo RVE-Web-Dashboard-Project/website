@@ -4,6 +4,7 @@ import { Fragment } from "react";
 
 import { useFetchUsers } from "../../repository/api/useFetchUsers";
 import { useGetOrFetchMe } from "../../repository/commands/useGetOrFetchMe";
+import useUsersSelector from "../../repository/redux/selectors/useUsersSelector";
 import { UserObject } from "../../repository/types/user";
 import { UserListItem } from "./UserListItem";
 
@@ -25,9 +26,10 @@ function canDeleteUser(user: UserObject, { me, userList }: {me: UserObject, user
 
 export const UsersList = () => {
   const { user: authenticatedUser } = useGetOrFetchMe();
-  const { data: users, error, loading, fetchUsersCommand } = useFetchUsers();
+  const { data, error, loading, fetchUsersCommand } = useFetchUsers();
+  const users = useUsersSelector();
 
-  if (!users && !loading && !error) {
+  if (!data && !loading && !error) {
     fetchUsersCommand();
   }
 
@@ -38,7 +40,7 @@ export const UsersList = () => {
     if (!users || !authenticatedUser) {
       return <CircularProgress color="secondary" />;
     }
-    const sortedUsers = users.sort((a, b) => a.name.localeCompare(b.name));
+    const sortedUsers = Object.values(users).sort((a, b) => a.name.localeCompare(b.name));
 
     return (
       <List >
@@ -47,7 +49,7 @@ export const UsersList = () => {
             {(index !== 0) && <Divider />}
             <UserListItem
               user={user}
-              canDelete={canDeleteUser(user, { me: authenticatedUser, userList: users })}
+              canDelete={canDeleteUser(user, { me: authenticatedUser, userList: sortedUsers })}
             />
           </Fragment>
         ))}

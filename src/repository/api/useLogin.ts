@@ -15,7 +15,7 @@ export function useLogin() {
   const [data, setData] = useState<ApiResponse | null>(null);
 
   const { setTokenCommand } = useSetToken();
-  const { setUserCommand } = useSetUser();
+  const { setCurrentUserCommand } = useSetUser();
   const { logoutCommand } = useLogout();
 
   async function loginCommand(username: string, password: string) {
@@ -36,7 +36,7 @@ export function useLogin() {
         const json = await response.json() as ApiResponse;
         setData(json);
         setTokenCommand(json.token);
-        setUserCommand({
+        setCurrentUserCommand({
           id: json.id,
           name: json.name,
           isAdmin: json.isAdmin,

@@ -18,7 +18,7 @@ export function useAcceptInvitation() {
   const [success, setSuccess] = useState(false);
 
   const { setTokenCommand } = useSetToken();
-  const { setUserCommand } = useSetUser();
+  const { setCurrentUserCommand } = useSetUser();
 
   async function acceptInvitation(invitationId: string, params: AcceptInvitationParams) {
     setLoading(true);
@@ -40,7 +40,7 @@ export function useAcceptInvitation() {
         const json = await response.json() as ApiResponse;
         setSuccess(true);
         setTokenCommand(json.token);
-        setUserCommand(json);
+        setCurrentUserCommand(json);
       } else {
         setErrorCode(response.status);
       }

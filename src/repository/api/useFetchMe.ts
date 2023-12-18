@@ -13,7 +13,7 @@ export function useFetchMe() {
   const [data, setData] = useState<UserObject | null>(null);
 
   const token = useTokenSelector();
-  const { setUserCommand } = useSetUser();
+  const { setCurrentUserCommand } = useSetUser();
   const { logoutCommand } = useLogout();
 
   async function fetchMeCommand() {
@@ -38,7 +38,7 @@ export function useFetchMe() {
       if (response.status === 200) {
         const json = await response.json() as ApiResponse;
         setData(json);
-        setUserCommand(json);
+        setCurrentUserCommand(json);
       } else if (response.status === 401) {
         setError("Invalid token");
         logoutCommand();
