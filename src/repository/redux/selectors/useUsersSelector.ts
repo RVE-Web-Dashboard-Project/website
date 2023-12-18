@@ -3,11 +3,11 @@ import { createSelector } from "@reduxjs/toolkit";
 import { useAppSelector } from "../hooks";
 import { RootState } from "../store";
 
-const userSelector = createSelector(
+const usersSelector = createSelector(
   (state: RootState) => state.user,
-  (user) => user.users[user.userId ?? ""],
+  (user) => user.users,
 );
 
-export default function useUserSelector() {
-  return useAppSelector(userSelector);
+export default function useUsersSelector() {
+  return useAppSelector(usersSelector);
 }

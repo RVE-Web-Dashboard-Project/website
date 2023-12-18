@@ -9,7 +9,7 @@ export function useDeleteUser() {
 
   const token = useTokenSelector();
 
-  async function deleteUser(params: {userId: number}) {
+  async function deleteUser(userId: number) {
     setLoading(true);
     setErrorCode(null);
     setSuccess(false);
@@ -22,7 +22,7 @@ export function useDeleteUser() {
 
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/user/" + params.userId,
+        process.env.REACT_APP_API_URL + "/user/" + userId,
         {
           method: "DELETE",
           headers: {

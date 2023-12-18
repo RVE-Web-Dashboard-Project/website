@@ -4,14 +4,16 @@ import { InvitationInfo, UserObject } from "../../types/user";
 import { getTokenFromStorage } from "../middlewares/localStorageMiddleware";
 
 export interface UserState {
-  user: UserObject | null;
+  userId: number | null;
   token: string | null;
+  users: Record<string, UserObject>;
   invitations: Record<string, InvitationInfo>;
 }
 
 const initialState: UserState = {
-  user: null,
+  userId: null,
   token: getTokenFromStorage(),
+  users: {},
   invitations: {},
 };
 
@@ -20,15 +22,22 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<Exclude<UserState["user"], null>>) => {
-      state.user = action.payload;
+    login: (state, action: PayloadAction<UserObject>) => {
+      state.userId = action.payload.id;
+      state.users[action.payload.id] = action.payload;
     },
     logout: (state) => {
-      state.user = null;
+      state.userId = null;
       state.token = null;
+      state.users = {};
     },
     setToken: (state, action: PayloadAction<UserState["token"]>) => {
       state.token = action.payload;
+    },
+    setUsers: (state, action: PayloadAction<UserObject[]>) => {
+      action.payload.forEach((user) => {
+        state.users[user.id] = user;
+      });
     },
     setInvitation: (state, action: PayloadAction<InvitationInfo>) => {
       state.invitations[action.payload.id] = action.payload;
@@ -45,6 +54,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { login, logout, setToken, setInvitation, setInvitations, removeInvitation } = userSlice.actions;
+export const { login, logout, setToken, setUsers, setInvitation, setInvitations, removeInvitation } = userSlice.actions;
 
 export default userSlice.reducer;
