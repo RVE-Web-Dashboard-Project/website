@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import useRemoveUser from "../redux/dispatchs/useRemoveUser";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 
 export function useDeleteUser() {
@@ -8,6 +9,7 @@ export function useDeleteUser() {
   const [success, setSuccess] = useState(false);
 
   const token = useTokenSelector();
+  const { removeUser } = useRemoveUser();
 
   async function deleteUser(userId: number) {
     setLoading(true);
@@ -33,6 +35,7 @@ export function useDeleteUser() {
       );
       if (response.status === 200) {
         setSuccess(true);
+        removeUser(userId);
       } else {
         setErrorCode(response.status);
       }
