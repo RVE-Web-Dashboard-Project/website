@@ -3,12 +3,14 @@ import { CircularProgress, Divider, List, Stack, Typography } from "@mui/materia
 import { Fragment } from "react";
 
 import { useFetchInvitations } from "../../repository/api/useFetchInvitations";
+import useInvitationsSelector from "../../repository/redux/selectors/useInvitationsSelector";
 import { InvitationListItem } from "./InvitationListItem";
 
 export const InvitationList = () => {
-  const { data: invitations, error, loading, fetchInvitationsCommand } = useFetchInvitations();
+  const { error, loading, fetchInvitationsCommand } = useFetchInvitations();
+  const invitations = useInvitationsSelector();
 
-  if (!invitations && !loading && !error) {
+  if (Object.keys(invitations).length === 0 && !loading && !error) {
     fetchInvitationsCommand();
   }
 
@@ -19,7 +21,7 @@ export const InvitationList = () => {
     if (!invitations) {
       return <CircularProgress color="secondary" />;
     }
-    const sortedInvitations = invitations.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    const sortedInvitations = Object.values(invitations).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
     return (
       <List >

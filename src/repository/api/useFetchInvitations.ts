@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import useSetInvitations from "../redux/dispatchs/useSetInvitations";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 import { InvitationInfo } from "../types/user";
 
@@ -11,6 +12,7 @@ export function useFetchInvitations() {
   const [data, setData] = useState<InvitationInfo[] | null>(null);
 
   const token = useTokenSelector();
+  const { setInvitations } = useSetInvitations();
 
   async function fetchInvitationsCommand() {
     setLoading(true);
@@ -34,6 +36,7 @@ export function useFetchInvitations() {
       if (response.status === 200) {
         const json = await response.json() as ApiResponse;
         setData(json);
+        setInvitations(json);
       } else if (response.status === 401) {
         setError("Invalid token");
       } else {

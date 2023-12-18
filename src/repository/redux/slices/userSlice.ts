@@ -33,12 +33,18 @@ export const userSlice = createSlice({
     setInvitation: (state, action: PayloadAction<InvitationInfo>) => {
       state.invitations[action.payload.id] = action.payload;
     },
+    setInvitations(state, action: PayloadAction<InvitationInfo[]>) {
+      action.payload.forEach((invitation) => {
+        state.invitations[invitation.id] = invitation;
+      });
+    },
     removeInvitation: (state, action: PayloadAction<string>) => {
+      console.log("deleting invitation", action.payload, "  |  ", JSON.stringify(state.invitations));
       delete state.invitations[action.payload];
     },
   },
 });
 
-export const { login, logout, setToken, setInvitation, removeInvitation } = userSlice.actions;
+export const { login, logout, setToken, setInvitation, setInvitations, removeInvitation } = userSlice.actions;
 
 export default userSlice.reducer;
