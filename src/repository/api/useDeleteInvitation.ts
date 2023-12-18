@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import useRemoveInvitation from "../redux/dispatchs/useRemoveInvitation";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 
 export function useDeleteInvitation() {
@@ -8,8 +9,9 @@ export function useDeleteInvitation() {
   const [success, setSuccess] = useState(false);
 
   const token = useTokenSelector();
+  const { removeInvitation } = useRemoveInvitation();
 
-  async function deleteInvitation(params: {invitationId: number}) {
+  async function deleteInvitation(invitationId: string) {
     setLoading(true);
     setErrorCode(null);
     setSuccess(false);
@@ -22,7 +24,7 @@ export function useDeleteInvitation() {
 
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/invitation/" + params.invitationId,
+        process.env.REACT_APP_API_URL + "/invitation/" + invitationId,
         {
           method: "DELETE",
           headers: {
@@ -33,6 +35,7 @@ export function useDeleteInvitation() {
       );
       if (response.status === 200) {
         setSuccess(true);
+        removeInvitation(invitationId);
       } else {
         setErrorCode(response.status);
       }
