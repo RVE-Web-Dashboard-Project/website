@@ -7,9 +7,6 @@ export const WebsiteName = "RVE Station";
 const baseTheme = createTheme({
   // Theme customization goes here as usual, including tonalOffset and/or
   // contrastThreshold as the augmentColor() function relies on these
-});
-
-export const RveTheme = createTheme(baseTheme, {
   components: {
     MuiLink: {
       defaultProps: {
@@ -30,6 +27,11 @@ export const RveTheme = createTheme(baseTheme, {
     secondary: {
       main: "#09c3b6",
     },
+  },
+});
+
+export const RveTheme = createTheme(baseTheme, {
+  palette: {
     gray: baseTheme.palette.augmentColor({
       color: {
         main: "#808080",
