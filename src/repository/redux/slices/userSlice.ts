@@ -39,6 +39,9 @@ export const userSlice = createSlice({
         state.users[user.id] = user;
       });
     },
+    removeUser: (state, action: PayloadAction<number>) => {
+      delete state.users[action.payload];
+    },
     setInvitation: (state, action: PayloadAction<InvitationInfo>) => {
       state.invitations[action.payload.id] = action.payload;
     },
@@ -54,6 +57,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { login, logout, setToken, setUsers, setInvitation, setInvitations, removeInvitation } = userSlice.actions;
+export const { login, logout, setToken, setUsers, removeUser, setInvitation, setInvitations, removeInvitation } = userSlice.actions;
 
 export default userSlice.reducer;
