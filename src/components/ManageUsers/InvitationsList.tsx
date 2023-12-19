@@ -4,6 +4,7 @@ import { Fragment } from "react";
 
 import { useFetchInvitations } from "../../repository/api/useFetchInvitations";
 import useInvitationsSelector from "../../repository/redux/selectors/useInvitationsSelector";
+import { CreateInvitationButton } from "./CreateInvitationButton";
 import { InvitationListItem } from "./InvitationListItem";
 
 export const InvitationList = () => {
@@ -39,10 +40,13 @@ export const InvitationList = () => {
 
   return (
     <Stack flex={1}>
-      <Typography variant="h5" noWrap sx={{ display: "flex", alignItems: "center" }}>
-        <MailOutlineIcon sx={{ mr: 1 }} />
+      <Stack direction="row" justifyContent="space-between">
+        <Typography variant="h5" noWrap sx={{ display: "flex", alignItems: "center" }}>
+          <MailOutlineIcon sx={{ mr: 1 }} />
         Invitation list
-      </Typography>
+        </Typography>
+        <CreateInvitationButton />
+      </Stack>
 
       <Content />
     </Stack>
