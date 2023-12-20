@@ -25,7 +25,7 @@ export const InvitationList = () => {
     const sortedInvitations = Object.values(invitations).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
     return (
-      <List >
+      <List>
         {sortedInvitations.map((invite, index) => (
           <Fragment key={invite.id}>
             {(index !== 0) && <Divider />}
