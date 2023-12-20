@@ -10,8 +10,6 @@ export const CreateInvitationButton = () => {
 
   if (error) {
     console.error("Error while creating invitation:", error);
-  } else if (success && isDialogOpen) {
-    setIsDialogOpen(false);
   }
 
   function handleOpenDialog() {
@@ -19,7 +17,6 @@ export const CreateInvitationButton = () => {
   }
 
   function handleCloseDialog(value: string | null) {
-    console.log("Dialog closed with value", value);
     if (value === null || loading) {
       setIsDialogOpen(false);
       return;
@@ -34,8 +31,11 @@ export const CreateInvitationButton = () => {
       setDialogErrorMessage("An unknown error occurred.");
     } else {
       setDialogErrorMessage(null);
+      if (success) {
+        setIsDialogOpen(false);
+      }
     }
-  }, [error]);
+  }, [error, success]);
 
   return (
     <Fragment>
