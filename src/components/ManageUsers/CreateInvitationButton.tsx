@@ -59,10 +59,13 @@ const CreateInvitationDialog = ({ open, onClose }: CreateInvitationDialogProps) 
             type="text"
             variant="standard"
             color={isUsernameValid ? "secondary" : "error"}
+            helperText={isUsernameValid ? "" : "Username must be 3-16 characters long and contain only letters, numbers and underscores."}
             value={username}
             onChange={(e) => setUsername(e.target.value.trim())}
             inputProps={{
               pattern: "\\w{3,16}",
+              minLength: 3,
+              maxLength: 16,
             }}
             fullWidth
             required
