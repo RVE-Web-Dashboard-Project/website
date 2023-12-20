@@ -1,22 +1,46 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
-import { FormEvent, Fragment, useState } from "react";
+import { FormEvent, Fragment, useEffect, useState } from "react";
+
+import { useCreateInvitation } from "../../repository/api/useCreateInvitation";
 
 export const CreateInvitationButton = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogErrorMessage, setDialogErrorMessage] = useState<string | null>(null);
+  const { createInvitation, loading, error, success } = useCreateInvitation();
+
+  if (error) {
+    console.error("Error while creating invitation:", error);
+  } else if (success && isDialogOpen) {
+    setIsDialogOpen(false);
+  }
 
   function handleOpenDialog() {
     setIsDialogOpen(true);
   }
 
   function handleCloseDialog(value: string | null) {
-    setIsDialogOpen(false);
     console.log("Dialog closed with value", value);
+    if (value === null || loading) {
+      setIsDialogOpen(false);
+      return;
+    }
+    createInvitation(value);
   }
+
+  useEffect(() => {
+    if (error === 400) {
+      setDialogErrorMessage("Username is already taken.");
+    } else if (error) {
+      setDialogErrorMessage("An unknown error occurred.");
+    } else {
+      setDialogErrorMessage(null);
+    }
+  }, [error]);
 
   return (
     <Fragment>
-      <Button variant="outlined" size="small" color="secondary" onClick={handleOpenDialog}>New invitation</Button>
-      <CreateInvitationDialog open={isDialogOpen} onClose={handleCloseDialog} />
+      <Button variant="outlined" size="small" color="secondary" onClick={handleOpenDialog} disabled={loading}>New invitation</Button>
+      <CreateInvitationDialog open={isDialogOpen} onClose={handleCloseDialog} errorMessage={dialogErrorMessage || undefined} />
     </Fragment>
   );
 };
@@ -25,8 +49,9 @@ export const CreateInvitationButton = () => {
 interface CreateInvitationDialogProps {
   open: boolean;
   onClose: (value: string | null) => void;
+  errorMessage?: string;
 }
-const CreateInvitationDialog = ({ open, onClose }: CreateInvitationDialogProps) => {
+const CreateInvitationDialog = ({ open, onClose, errorMessage }: CreateInvitationDialogProps) => {
   const [username, setUsername] = useState("");
 
   const isUsernameValid = /^\w{3,16}$/.test(username);
@@ -71,6 +96,7 @@ const CreateInvitationDialog = ({ open, onClose }: CreateInvitationDialogProps) 
             required
           />
         </form>
+        {errorMessage && <DialogContentText color="error">{errorMessage}</DialogContentText>}
       </DialogContent>
       <DialogActions>
         <Button onClick={handelCancel} color="gray">Cancel</Button>
