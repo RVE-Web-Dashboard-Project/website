@@ -51,7 +51,6 @@ export const userSlice = createSlice({
       });
     },
     removeInvitation: (state, action: PayloadAction<string>) => {
-      console.log("deleting invitation", action.payload, "  |  ", JSON.stringify(state.invitations));
       delete state.invitations[action.payload];
     },
   },
