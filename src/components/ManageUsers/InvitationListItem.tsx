@@ -1,4 +1,7 @@
-import { ListItem, ListItemSecondaryAction, ListItemText, Stack } from "@mui/material";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import FileCopyOutlinedIcon from "@mui/icons-material/FileCopyOutlined";
+import { IconButton, ListItem, ListItemSecondaryAction, ListItemText, Stack, Tooltip } from "@mui/material";
+import { useState } from "react";
 
 import { useDeleteInvitation } from "../../repository/api/useDeleteInvitation";
 import { InvitationInfo } from "../../repository/types/user";
@@ -22,6 +25,7 @@ export const InvitationListItem = ({ invite }: InvitationListItemProps) => {
         primary={
           <Stack direction="row" spacing={1} alignItems="center" useFlexGap>
             {invite.username}
+            <CopyToClipboardButton id={invite.id} />
           </Stack>
         }
         secondary={<InvitationSecondaryInfo invite={invite} />}
@@ -38,6 +42,32 @@ export const InvitationListItem = ({ invite }: InvitationListItemProps) => {
     </ListItem>
   );
 };
+
+const CopyToClipboardButton = ({ id }: {id: string}) => {
+  const [isCopied, setIsCopied] = useState(false);
+  function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  return (
+    <Tooltip title="Copy to clipboard" >
+      <IconButton
+        size="small"
+        onClick={() => {
+          navigator.clipboard.writeText(process.env.PUBLIC_URL + "/invitation/" + id);
+          setIsCopied(true);
+          sleep(1000).then(() => setIsCopied(false));
+        }}
+      >
+        {isCopied
+          ? <CheckCircleOutlineOutlinedIcon fontSize="small" color="success" />
+          : <FileCopyOutlinedIcon fontSize="small" />
+        }
+      </IconButton>
+    </Tooltip>
+  );
+};
+
 
 const InvitationSecondaryInfo = ({ invite }: InvitationListItemProps) => {
   const creationDateLabel = "Created at " + new Date(invite.createdAt).toLocaleString("en", {
