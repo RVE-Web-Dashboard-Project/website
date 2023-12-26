@@ -43,7 +43,7 @@ export const UsersList = () => {
     const sortedUsers = Object.values(users).sort((a, b) => a.name.localeCompare(b.name));
 
     return (
-      <List >
+      <List>
         {sortedUsers.map((user, index) => (
           <Fragment key={user.id}>
             {(index !== 0) && <Divider />}
