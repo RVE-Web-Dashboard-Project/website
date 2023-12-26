@@ -1,6 +1,6 @@
 import typia from "typia";
 
-import { WsEventMQTTConnectionUpdate } from "../../../ws/wsEvents";
+import { WsEventCoordinatorsMapUpdate, WsEventMQTTConnectionUpdate } from "../../../ws/wsEvents";
 import { MQTTResponse } from "../../mqttResponse";
 
 
@@ -8,3 +8,4 @@ export const isWsEventMQTTConnectionUpdate = typia.createIs<WsEventMQTTConnectio
 
 export const isMQTTResponse = typia.createIs<MQTTResponse>();
 
+export const isWsEventCoordinatorsMapUpdate = typia.createIs<WsEventCoordinatorsMapUpdate>();

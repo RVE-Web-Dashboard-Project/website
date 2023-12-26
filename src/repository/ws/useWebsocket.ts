@@ -3,7 +3,8 @@ import useWebSocket, { ReadyState } from "react-use-websocket";
 
 import useAddConsoleMessage from "../redux/dispatchs/useAddConsoleMessage";
 import useSetBrokerConnectionStatus from "../redux/dispatchs/useSetBrokerConnectionStatus";
-import { isMQTTResponse, isWsEventMQTTConnectionUpdate } from "../types/checks";
+import useSetNodesMap from "../redux/dispatchs/useSetNodesMap";
+import { isMQTTResponse, isWsEventCoordinatorsMapUpdate, isWsEventMQTTConnectionUpdate } from "../types/checks";
 
 
 export default function useWebsocket(token: string) {
@@ -11,6 +12,7 @@ export default function useWebsocket(token: string) {
   const socketUrl = process.env.REACT_APP_API_URL.replace("http", "ws");
 
   const { setBrokerConnectionStatus } = useSetBrokerConnectionStatus();
+  const { setNodesMapFromApi } = useSetNodesMap();
   const { addMQTTResponseMessage } = useAddConsoleMessage();
 
   useEffect(() => () => {
@@ -39,6 +41,10 @@ export default function useWebsocket(token: string) {
     }
     if (isMQTTResponse(data)) {
       addMQTTResponseMessage(data);
+      return;
+    }
+    if (isWsEventCoordinatorsMapUpdate(data)) {
+      setNodesMapFromApi(data.data);
     }
 
   }
