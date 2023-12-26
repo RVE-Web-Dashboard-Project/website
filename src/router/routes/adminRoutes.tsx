@@ -1,5 +1,6 @@
 import { Outlet, RouteObject } from "react-router-dom";
 
+import ManageCoordinators from "../../pages/ManageCoordinators";
 import ManageUsers from "../../pages/ManageUsers";
 import AdminGuard from "../guards/AdminGuard";
 
@@ -15,6 +16,10 @@ export const adminRoutes: RouteObject[] = [
       {
         path: "/admin/users",
         Component: () => <ManageUsers />,
+      },
+      {
+        path: "/admin/coordinators",
+        Component: () => <ManageCoordinators />,
       },
     ],
   },

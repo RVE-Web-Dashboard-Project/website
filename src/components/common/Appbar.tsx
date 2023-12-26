@@ -17,6 +17,7 @@ export default function Appbar() {
     if (user?.isAdmin) {
       defaultPages = {
         "Manage users": "/admin/users",
+        "Manage coordinators": "/admin/coordinators",
         ...defaultPages,
       };
     }
