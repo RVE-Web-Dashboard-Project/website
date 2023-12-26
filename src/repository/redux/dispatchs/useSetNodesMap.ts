@@ -8,5 +8,24 @@ export default function useSetNodesMap() {
     dispatch(setNodesMapFromReducer(nodesMap));
   }
 
-  return { setNodesMap };
+  async function setNodesMapFromApi(nodesMap: Record<number, number[]>) {
+    dispatch(setNodesMapFromReducer(
+      Object.entries(nodesMap).reduce((acc, [key, value]) => {
+        acc[parseInt(key)] = {
+          selected: false,
+          nodes: value.reduce((nAcc, nodeId) => {
+            nAcc[nodeId] = false;
+            return nAcc;
+          },
+          {} as { [key: number]: boolean },
+          ),
+        };
+        return acc;
+      },
+      {} as Exclude<CoordinatorsState["nodesMap"], null>,
+      ),
+    ));
+  }
+
+  return { setNodesMap, setNodesMapFromApi };
 }
