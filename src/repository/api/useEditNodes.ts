@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import useSetNodesMap from "../redux/dispatchs/useSetNodesMap";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 
 type NodesMap = {[key: number]: number[]}
@@ -10,7 +9,6 @@ export function useEditNodes() {
   const [loading, setLoading] = useState(false);
 
   const token = useTokenSelector();
-  const { setNodesMapFromApi } = useSetNodesMap();
 
   async function editNodesCommand(nodesMap: NodesMap) {
     setLoading(true);
@@ -29,12 +27,11 @@ export function useEditNodes() {
           method: "PUT",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(nodesMap),
         });
-      if (response.status === 200) {
-        setNodesMapFromApi(nodesMap);
-      } else {
+      if (response.status >= 400) {
         setErrorCode(response.status);
       }
     } catch (err) {
