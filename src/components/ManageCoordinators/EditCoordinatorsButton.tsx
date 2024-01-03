@@ -3,14 +3,18 @@ import { Fragment, useState } from "react";
 
 import { useEditNodes } from "../../repository/api/useEditNodes";
 import { isCoordinatorsMapObject } from "../../repository/types/checks";
+import { ConfirmationDialog } from "../common/ConfirmationDialog";
 
 export const EditCoordinatorsButton = () => {
   const { editNodesCommand, loading, errorCode } = useEditNodes();
   const [isReading, setIsReading] = useState(false);
+  const [fileJsonContent, setFileJsonContent] = useState<{[key: number]: number[]} | null>(null);
 
   if (errorCode) {
     return <Typography color="error">Something went wrong</Typography>;
   }
+
+  const isConfirmationOpen = fileJsonContent !== null;
 
   function onSubmit(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.item(0);
@@ -29,8 +33,7 @@ export const EditCoordinatorsButton = () => {
           alert("Invalid JSON file");
           return;
         }
-        editNodesCommand(json);
-        alert("Configuration successfully uploaded!");
+        setFileJsonContent(json);
       };
       reader.onerror = (readerEvent) => {
         console.error("error reading file", readerEvent);
@@ -40,6 +43,12 @@ export const EditCoordinatorsButton = () => {
     } else {
       alert("Only JSON files are supported");
     }
+  }
+
+  function onConfirm() {
+    if (fileJsonContent === null) return;
+    editNodesCommand(fileJsonContent);
+    setFileJsonContent(null);
   }
 
   return (
@@ -56,6 +65,13 @@ export const EditCoordinatorsButton = () => {
           Upload configuration
         </Button>
       </label>
+      <ConfirmationDialog
+        title="Confirm configuration upload"
+        message="Are you sure you want to upload this configuration? You will not be able to undo this action."
+        open={isConfirmationOpen}
+        onConfirm={onConfirm}
+        onCancel={() => setFileJsonContent(null)}
+      />
     </Fragment>
   );
 };
