@@ -21,3 +21,14 @@ export const isWsEventCoordinatorsMapUpdate = (input: any): input is WsEventCoor
     });
     return "object" === typeof input && null !== input && $io0(input);
 };
+export const isCoordinatorsMapObject = (input: any): input is {[key: number]: number[]} => {
+    const $io0 = (input: any): boolean => Object.keys(input).every((key: any) => {
+        const value = input[key];
+        if (undefined === value)
+            return true;
+        if ("number" === typeof Number(key))
+            return Array.isArray(value) && value.every((elem: any) => "number" === typeof elem);
+        return true;
+    });
+    return "object" === typeof input && null !== input && false === Array.isArray(input) && $io0(input);
+};

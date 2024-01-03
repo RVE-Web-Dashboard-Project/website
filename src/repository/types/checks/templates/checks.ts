@@ -9,3 +9,5 @@ export const isWsEventMQTTConnectionUpdate = typia.createIs<WsEventMQTTConnectio
 export const isMQTTResponse = typia.createIs<MQTTResponse>();
 
 export const isWsEventCoordinatorsMapUpdate = typia.createIs<WsEventCoordinatorsMapUpdate>();
+
+export const isCoordinatorsMapObject = typia.createIs<{[key: number]: number[]}>();
