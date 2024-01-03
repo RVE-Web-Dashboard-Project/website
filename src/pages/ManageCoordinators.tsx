@@ -12,10 +12,10 @@ export default function ManageCoordinators() {
         Manage Coordinators
       </Typography>
 
-      <Stack direction="row" spacing={2}>
+      <ButtonsContainer >
         <DownloadCoordinatorsButton />
         <EditCoordinatorsButton />
-      </Stack>
+      </ButtonsContainer>
 
       <ListContainer>
         <CoordinatorsList />
@@ -24,13 +24,21 @@ export default function ManageCoordinators() {
   );
 }
 
+const ButtonsContainer = styled(Stack)(({ theme }) => ({
+  flexDirection: "row",
+  gap: `${theme.spacing(1)} ${theme.spacing(2)}`,
+  padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
+  flexWrap: "wrap",
+  justifyContent: "center",
+}));
+
 const ListContainer = styled(Stack)(({ theme }) => ({
   flex: 1,
   flexDirection: "row",
   gap: theme.spacing(3),
   padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
 
-  [theme.breakpoints.down("md")]: {
+  [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
   },
 }));
