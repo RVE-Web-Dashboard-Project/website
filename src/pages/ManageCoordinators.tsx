@@ -2,6 +2,7 @@ import { Stack, styled, Typography } from "@mui/material";
 import { Fragment } from "react";
 
 import { CoordinatorsList } from "../components/ManageCoordinators/CoordinatorsList";
+import { DownloadCoordinatorsButton } from "../components/ManageCoordinators/DownloadCoordinatorsButton";
 
 export default function ManageCoordinators() {
   return (
@@ -9,6 +10,10 @@ export default function ManageCoordinators() {
       <Typography my={2} variant="h4" noWrap>
         Manage Coordinators
       </Typography>
+
+      <Stack direction="row" spacing={2}>
+        <DownloadCoordinatorsButton />
+      </Stack>
 
       <ListContainer>
         <CoordinatorsList />
