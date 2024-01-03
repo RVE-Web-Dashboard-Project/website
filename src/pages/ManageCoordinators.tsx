@@ -3,6 +3,7 @@ import { Fragment } from "react";
 
 import { CoordinatorsList } from "../components/ManageCoordinators/CoordinatorsList";
 import { DownloadCoordinatorsButton } from "../components/ManageCoordinators/DownloadCoordinatorsButton";
+import { EditCoordinatorsButton } from "../components/ManageCoordinators/EditCoordinatorsButton";
 
 export default function ManageCoordinators() {
   return (
@@ -13,6 +14,7 @@ export default function ManageCoordinators() {
 
       <Stack direction="row" spacing={2}>
         <DownloadCoordinatorsButton />
+        <EditCoordinatorsButton />
       </Stack>
 
       <ListContainer>
