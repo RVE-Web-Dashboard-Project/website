@@ -1,5 +1,6 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { CircularProgress, Collapse, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from "@mui/material";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import { CircularProgress, Collapse, List, ListItem, ListItemButton, ListItemText, Stack, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { useGetOrFetchNodes } from "../../repository/commands/useGetOrFetchNodes";
@@ -17,7 +18,7 @@ export const CoordinatorsList = () => {
   }
 
   return (
-    <Stack useFlexGap spacing={3} direction="row">
+    <Stack useFlexGap spacing={3} direction="row" flexWrap="wrap">
       {Object.entries(coordinators).map(([coordinatorId, coordinatorObject]) => (
         <CoordinatorList
           key={coordinatorId}
@@ -31,10 +32,17 @@ export const CoordinatorsList = () => {
 
 const CoordinatorList = ({ coordinatorId, nodes }: {coordinatorId: number, nodes: { [key: number]: boolean; }}) => {
   const [open, setOpen] = useState(false);
+  const isEmpty = Object.keys(nodes).length === 0;
+
   return (
     <Stack alignSelf="flex-start" sx={{ border: "1px solid black", borderRadius: "16px", overflow: "hidden" }}>
       <ListItemButton onClick={() => setOpen(!open)}>
-        <ListItemText primary={`Coordinator ${coordinatorId}`} />
+        <ListItemText primary={
+          <Stack useFlexGap direction="row" spacing={0.5}>
+            {isEmpty && <EmptyCoordinatorIcon />}
+            {`Coordinator ${coordinatorId}`}
+          </Stack>
+        } />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
@@ -49,3 +57,9 @@ const CoordinatorList = ({ coordinatorId, nodes }: {coordinatorId: number, nodes
     </Stack>
   );
 };
+
+const EmptyCoordinatorIcon = () => (
+  <Tooltip title="Coordinator is empty">
+    <WarningAmberIcon color="warning" />
+  </Tooltip>
+);
