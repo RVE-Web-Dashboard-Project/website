@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import useAddConsoleMessage from "../redux/dispatchs/useAddConsoleMessage";
+import useRegisterOngoingCommand from "../redux/dispatchs/useRegisterOngoingCommand";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 
 export interface SendCommandParams {
@@ -10,6 +11,10 @@ export interface SendCommandParams {
   parameters?: number[];
 }
 
+interface ApiResponse {
+  orderId: number;
+}
+
 export function useSendCommand() {
   const [errorCode, setErrorCode] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
@@ -17,6 +22,7 @@ export function useSendCommand() {
 
   const token = useTokenSelector();
   const { addSendCommandMessage } = useAddConsoleMessage();
+  const { registerOngoingCommand } = useRegisterOngoingCommand();
 
   async function sendCommand(params: SendCommandParams) {
     setLoading(true);
@@ -44,6 +50,8 @@ export function useSendCommand() {
       if (response.status === 200 || response.status === 202) {
         setSuccess(true);
         addSendCommandMessage(params);
+        const data = await response.json() as ApiResponse;
+        registerOngoingCommand({ orderId: data.orderId, command: params });
       } else {
         setErrorCode(response.status);
       }
