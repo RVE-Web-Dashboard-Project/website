@@ -76,7 +76,7 @@ export const NodesSelection = () => {
                   key={coordinatorId + "-" + nodeId}
                   id={coordinatorId + "-" + nodeId}
                   label={nodeId}
-                  checked={nodeSelected}
+                  checked={nodeSelected.selected}
                   onChange={onNodeChange}
                 />
               ))}

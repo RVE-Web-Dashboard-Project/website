@@ -4,10 +4,15 @@ export interface CoordinatorsState {
   nodesMap: {[key: number]: {
     selected: boolean,
     nodes: {
-      [key: number]: boolean,
+      [key: number]: {
+        selected: boolean,
+        lastStatus: null | boolean;
+      },
     }
   }} | null;
 }
+
+export type NodesState = Exclude<CoordinatorsState["nodesMap"], null>[number]["nodes"];
 
 const initialState: CoordinatorsState = {
   nodesMap: null,
@@ -31,7 +36,7 @@ export const coordinatorsSlice = createSlice({
           // if coordinator is unselected, also set all nodes to unselected
           if (!action.payload) {
             for (const nodeId of Object.keys(state.nodesMap[parseInt(coordinatorId)].nodes)) {
-              state.nodesMap[parseInt(coordinatorId)].nodes[parseInt(nodeId)] = false;
+              state.nodesMap[parseInt(coordinatorId)].nodes[parseInt(nodeId)] = { selected: false, lastStatus: null };
             }
           }
         }
@@ -43,7 +48,7 @@ export const coordinatorsSlice = createSlice({
         // if coordinator is unselected, also set all nodes to unselected
         if (!action.payload.selected) {
           for (const nodeId of Object.keys(state.nodesMap[action.payload.coordinatorId].nodes)) {
-            state.nodesMap[action.payload.coordinatorId].nodes[parseInt(nodeId)] = false;
+            state.nodesMap[action.payload.coordinatorId].nodes[parseInt(nodeId)] = { selected: false, lastStatus: null };
           }
         }
       }
@@ -51,13 +56,13 @@ export const coordinatorsSlice = createSlice({
     setAllNodesSelection(state, action: PayloadAction<{coordinatorId: number, selected: boolean}>) {
       if (state.nodesMap && state.nodesMap[action.payload.coordinatorId]) {
         for (const nodeId of Object.keys(state.nodesMap[action.payload.coordinatorId].nodes)) {
-          state.nodesMap[action.payload.coordinatorId].nodes[parseInt(nodeId)] = action.payload.selected;
+          state.nodesMap[action.payload.coordinatorId].nodes[parseInt(nodeId)].selected = action.payload.selected;
         }
       }
     },
     setNodeSelection: (state, action: PayloadAction<{coordinatorId: number, nodeId: number, selected: boolean}>) => {
       if (state.nodesMap && state.nodesMap[action.payload.coordinatorId] && state.nodesMap[action.payload.coordinatorId].nodes[action.payload.nodeId] !== undefined) {
-        state.nodesMap[action.payload.coordinatorId].nodes[action.payload.nodeId] = action.payload.selected;
+        state.nodesMap[action.payload.coordinatorId].nodes[action.payload.nodeId].selected = action.payload.selected;
       }
     },
   },

@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../hooks";
-import { CoordinatorsState, setNodesMap as setNodesMapFromReducer } from "../slices/coordinatorsSlice";
+import { CoordinatorsState, NodesState, setNodesMap as setNodesMapFromReducer } from "../slices/coordinatorsSlice";
 
 export default function useSetNodesMap() {
   const dispatch = useAppDispatch();
@@ -14,10 +14,13 @@ export default function useSetNodesMap() {
         acc[parseInt(key)] = {
           selected: false,
           nodes: value.reduce((nAcc, nodeId) => {
-            nAcc[nodeId] = false;
+            nAcc[nodeId] = {
+              selected: false,
+              lastStatus: null,
+            };
             return nAcc;
           },
-          {} as { [key: number]: boolean },
+          {} as NodesState,
           ),
         };
         return acc;

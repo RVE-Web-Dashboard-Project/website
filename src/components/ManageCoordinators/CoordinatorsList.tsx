@@ -4,6 +4,7 @@ import { CircularProgress, Collapse, List, ListItem, ListItemButton, ListItemTex
 import { useState } from "react";
 
 import { useGetOrFetchNodes } from "../../repository/commands/useGetOrFetchNodes";
+import { NodesState } from "../../repository/redux/slices/coordinatorsSlice";
 
 
 export const CoordinatorsList = () => {
@@ -30,7 +31,7 @@ export const CoordinatorsList = () => {
   );
 };
 
-const CoordinatorList = ({ coordinatorId, nodes }: {coordinatorId: number, nodes: { [key: number]: boolean; }}) => {
+const CoordinatorList = ({ coordinatorId, nodes }: {coordinatorId: number, nodes: NodesState}) => {
   const [open, setOpen] = useState(false);
   const isEmpty = Object.keys(nodes).length === 0;
 
