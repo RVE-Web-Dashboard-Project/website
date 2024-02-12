@@ -13,7 +13,7 @@ const selectedNodesSelector = createSelector(
         .map(([coordId, coordObject]) => [
           coordId,
           Object.entries(coordObject.nodes)
-            .filter(([nodeId, isSelected]) => isSelected)
+            .filter(([nodeId, nodeState]) => nodeState.selected)
             .map(([nodeId]) => Number(nodeId)),
         ]),
     );

@@ -23,8 +23,8 @@ export const NodesSelection = () => {
     // build a map of coordinatorId -> boolean
     Object.fromEntries(
       Object.entries(shownNodes).map(([coordinatorId, nodesObject]) => {
-        const allSelected = Object.values(nodesObject.nodes).every(Boolean);
-        const anySelected = Object.values(nodesObject.nodes).some(Boolean);
+        const allSelected = Object.values(nodesObject.nodes).every(node => node.selected);
+        const anySelected = Object.values(nodesObject.nodes).some(node => node.selected);
         return [
           coordinatorId,
           {
