@@ -6,6 +6,7 @@ import { MQTTResponse } from "../../types/mqttResponse";
 import { WsEventMQTTConnectionUpdate } from "../../ws/wsEvents";
 import { useAppDispatch } from "../hooks";
 import useCommandsSelector from "../selectors/useCommandsSelector";
+import useOngoingCommandsSelector from "../selectors/useOngoingCommandsSelector";
 import { addMessage } from "../slices/commandsSlice";
 
 type MessageWithOptionalUUID = Omit<ConsoleMessage, "uuid"> & { uuid?: string };
@@ -13,6 +14,7 @@ type MessageWithOptionalUUID = Omit<ConsoleMessage, "uuid"> & { uuid?: string };
 export default function useAddConsoleMessage() {
   const dispatch = useAppDispatch();
   const commands = useCommandsSelector();
+  const ongoingCommands = useOngoingCommandsSelector();
 
   async function addRawConsoleMessage(message: MessageWithOptionalUUID) {
     dispatch(addMessage({
@@ -77,16 +79,15 @@ export default function useAddConsoleMessage() {
     }
 
     let msg = "";
+    const sentCommandId = ongoingCommands[data.order_id]?.commandId;
+    const usedCommand = commands.find((c) => c.id === sentCommandId);
+    const commandName = usedCommand?.name ?? sentCommandId.toString();
     if (data.command === 10) {
-      msg = `Error received from ${destination} (NOACK response)`;
+      msg = `Error received from ${destination} for command "${commandName}" (NOACK response)`;
+    } else if (data.params) {
+      msg = `Response received from ${destination} for command "${commandName}": ${data.params.param1}`;
     } else {
-      const usedCommand = commands.find((c) => c.id === data.command);
-      const commandName = usedCommand?.name ?? data.command.toString();
-      if (data.params) {
-        msg = `Response received from ${destination} for command "${commandName}": ${data.params.param1}`;
-      } else {
-        msg = `Successful response received from ${destination} for command "${commandName}"`;
-      }
+      msg = `Successful response received from ${destination} for command "${commandName}"`;
     }
 
     await addRawConsoleMessage({
