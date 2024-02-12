@@ -65,9 +65,23 @@ export const coordinatorsSlice = createSlice({
         state.nodesMap[action.payload.coordinatorId].nodes[action.payload.nodeId].selected = action.payload.selected;
       }
     },
+    setNodePingStatus: (state, action: PayloadAction<{coordinatorId: number, nodeId: number, status: null | boolean}>) => {
+      if (state.nodesMap && state.nodesMap[action.payload.coordinatorId] && state.nodesMap[action.payload.coordinatorId].nodes[action.payload.nodeId] !== undefined) {
+        state.nodesMap[action.payload.coordinatorId].nodes[action.payload.nodeId].lastStatus = action.payload.status;
+      }
+    },
+    resetAllNodesPingStatus: (state) => {
+      if (state.nodesMap) {
+        for (const coordinatorId of Object.keys(state.nodesMap)) {
+          for (const nodeId of Object.keys(state.nodesMap[parseInt(coordinatorId)].nodes)) {
+            state.nodesMap[parseInt(coordinatorId)].nodes[parseInt(nodeId)].lastStatus = null;
+          }
+        }
+      }
+    },
   },
 });
 
-export const { setNodesMap, setAllCoordinatorsSelection, setCoordinatorSelection, setAllNodesSelection, setNodeSelection } = coordinatorsSlice.actions;
+export const { setNodesMap, setAllCoordinatorsSelection, setCoordinatorSelection, setAllNodesSelection, setNodeSelection, setNodePingStatus, resetAllNodesPingStatus } = coordinatorsSlice.actions;
 
 export default coordinatorsSlice.reducer;

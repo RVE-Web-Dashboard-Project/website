@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
+import useConditionalNodeUpdateOnMQTTResponse from "../commands/useConditionalNodeUpdateOnMQTTResponse";
 import useAddConsoleMessage from "../redux/dispatchs/useAddConsoleMessage";
 import useSetBrokerConnectionStatus from "../redux/dispatchs/useSetBrokerConnectionStatus";
 import useSetNodesMap from "../redux/dispatchs/useSetNodesMap";
@@ -14,6 +15,7 @@ export default function useWebsocket(token: string) {
   const { setBrokerConnectionStatus } = useSetBrokerConnectionStatus();
   const { setNodesMapFromApi } = useSetNodesMap();
   const { addMQTTResponseMessage } = useAddConsoleMessage();
+  const { updateNodePingStatus } = useConditionalNodeUpdateOnMQTTResponse();
 
   useEffect(() => () => {
     didUnmount.current = true;
@@ -41,6 +43,7 @@ export default function useWebsocket(token: string) {
     }
     if (isMQTTResponse(data)) {
       addMQTTResponseMessage(data);
+      updateNodePingStatus(data);
       return;
     }
     if (isWsEventCoordinatorsMapUpdate(data)) {
