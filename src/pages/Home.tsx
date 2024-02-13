@@ -4,7 +4,7 @@ import { Fragment, useState } from "react";
 import { CommandSelection } from "../components/Home/CommandSelection";
 import { Console } from "../components/Home/Console/Console";
 import { CoordinatorsSelection } from "../components/Home/CoordinatorsSelection";
-import { NodesPingStatusDrawer } from "../components/Home/NodesPingStatus/NodesPingStatusDrawer";
+import { NodesPingStatusDrawer, NodesPingStatusDrawerWidth } from "../components/Home/NodesPingStatus/NodesPingStatusDrawer";
 import { NodesSelection } from "../components/Home/NodesSelection";
 import { useIsOnMobile } from "../styles/useIsOnMobile";
 
@@ -53,8 +53,6 @@ const CommandSectionContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-const drawerWidth = 240;
-
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
@@ -71,8 +69,8 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginRight: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginRight: NodesPingStatusDrawerWidth,
+    width: `calc(100% - ${NodesPingStatusDrawerWidth}px)`,
   }),
   position: "relative",
 }));
