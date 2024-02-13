@@ -6,7 +6,7 @@ export interface CoordinatorsState {
     nodes: {
       [key: number]: {
         selected: boolean,
-        lastStatus: null | boolean;
+        lastStatus: null | boolean; // null for not pinged, true for online, false for offline
       },
     }
   }} | null;
