@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import useAddConsoleMessage from "../redux/dispatchs/useAddConsoleMessage";
 import useRegisterOngoingCommand from "../redux/dispatchs/useRegisterOngoingCommand";
+import useSetNodePingStatus from "../redux/dispatchs/useSetNodePingStatus";
+import useCoordinatorSelector from "../redux/selectors/useCoordinatorsSelector";
 import useTokenSelector from "../redux/selectors/useTokenSelector";
 
 export interface SendCommandParams {
@@ -23,6 +25,7 @@ export function useSendCommand() {
   const token = useTokenSelector();
   const { addSendCommandMessage } = useAddConsoleMessage();
   const { registerOngoingCommand } = useRegisterOngoingCommand();
+  const { resetNodesPingStatus } = useResetNodesPingStatus();
 
   async function sendCommand(params: SendCommandParams) {
     setLoading(true);
@@ -52,6 +55,9 @@ export function useSendCommand() {
         addSendCommandMessage(params);
         const data = await response.json() as ApiResponse;
         registerOngoingCommand({ orderId: data.orderId, command: params });
+        if (params.commandId === 15) {
+          resetNodesPingStatus(params);
+        }
       } else {
         setErrorCode(response.status);
       }
@@ -65,4 +71,21 @@ export function useSendCommand() {
   }
 
   return { sendCommand, error: errorCode, loading, success };
+}
+
+function useResetNodesPingStatus() {
+  const coordinators = useCoordinatorSelector();
+  const { setNodePingStatus } = useSetNodePingStatus();
+
+  async function resetNodesPingStatus(params: SendCommandParams) {
+    if (params.commandId !== 15 || !params.nodeIds || coordinators === null) return;
+    for (const nodeId of params.nodeIds) {
+      const coordinatorId = Object.entries(coordinators).find(([cId, cObject]) => cObject.nodes[nodeId] !== undefined)?.[0];
+      if (coordinatorId) {
+        setNodePingStatus({ coordinatorId: parseInt(coordinatorId), nodeId, status: null });
+      }
+    }
+  }
+
+  return { resetNodesPingStatus };
 }
