@@ -37,7 +37,7 @@ export default function Appbar() {
   const theme = useTheme();
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" sx={{ zIndex: () => theme.zIndex.drawer + 1 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <SiteTitle />
