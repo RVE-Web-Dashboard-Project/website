@@ -1,5 +1,4 @@
-import ChecklistIcon from "@mui/icons-material/Checklist";
-import { IconButton, Stack, styled, Toolbar, Typography } from "@mui/material";
+import { Stack, styled, Toolbar, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
 
 import { CommandSelection } from "../components/Home/CommandSelection";
@@ -17,23 +16,14 @@ export default function Home() {
     <Fragment >
       <Toolbar />
       <Main open={!isOnMobile && isDrawerOpen}>
-        <Typography my={2} variant="h4" textAlign="center" noWrap>
-          Home
-          <IconButton
-            color="primary"
-            onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-            aria-label="open drawer"
-          >
-            <ChecklistIcon/>
-          </IconButton>
-        </Typography>
+        <Typography my={2} variant="h4" textAlign="center" noWrap>Home</Typography>
 
 
         <Stack spacing={2} minHeight="100%" width="100%" useFlexGap>
           <Stack direction={{ xs: "column", md: "row" }} spacing={{ xs: 2, md: 8 }} width="100%" paddingX="5%" useFlexGap>
             <CoordinatorsSelection />
 
-            <NodesSelection />
+            <NodesSelection isDrawerOpen={isDrawerOpen} onDrawerToggle={() => setIsDrawerOpen(!isDrawerOpen)} />
           </Stack>
 
           <CommandSectionContainer>

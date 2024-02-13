@@ -1,12 +1,19 @@
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import ChecklistIcon from "@mui/icons-material/Checklist";
+import { Box, Button, CircularProgress, IconButton, Stack, Typography } from "@mui/material";
 import { Fragment, useMemo } from "react";
 
 import { useGetOrFetchNodes } from "../../repository/commands/useGetOrFetchNodes";
 import { useEditNodeSelection } from "../../repository/redux/dispatchs/useEditNodeSelection";
+import { useIsOnMobile } from "../../styles/useIsOnMobile";
 import { CustomCheckbox } from "./CustomCheckbox";
 import { SelectionContainer } from "./SelectionContainer";
 
-export const NodesSelection = () => {
+interface NodesSelectionProps {
+  isDrawerOpen: boolean;
+  onDrawerToggle: () => void;
+}
+
+export const NodesSelection = ({ isDrawerOpen, onDrawerToggle }: NodesSelectionProps) => {
   const { nodes, error, loading } = useGetOrFetchNodes();
   const { setAllNodesSelectionCommand, setNodeSelectionCommand } = useEditNodeSelection();
 
@@ -88,7 +95,12 @@ export const NodesSelection = () => {
 
   return (
     <SelectionContainer>
-      <Typography variant="h5" mb={1}>Nodes</Typography>
+      <Stack direction="row" justifyContent="space-between">
+        <Typography variant="h5">
+          Nodes
+        </Typography>
+        <OpenDrawerButton isDrawerOpen={isDrawerOpen} onDrawerToggle={onDrawerToggle} />
+      </Stack>
       {anyCoordinatorShown ? SelectorsComponent : <NoCoordinatorError />}
     </SelectionContainer>
   );
@@ -99,3 +111,24 @@ const NoCoordinatorError = () => (
     <Typography color="error">Please select a coordinator first.</Typography>
   </Stack>
 );
+
+const OpenDrawerButton = ({ isDrawerOpen, onDrawerToggle }: NodesSelectionProps) => {
+  const isOnMobile = useIsOnMobile();
+  if (isOnMobile) {
+    return (
+      <IconButton
+        color="secondary"
+        onClick={onDrawerToggle}
+        aria-label="open drawer"
+      >
+        <ChecklistIcon/>
+      </IconButton>
+    );
+  }
+
+  return (
+    <Button variant={isDrawerOpen ? "outlined" : "text"} size="small" endIcon={<ChecklistIcon />} onClick={onDrawerToggle} color="secondary">
+      {isDrawerOpen ? "Hide nodes status" : "See nodes status"}
+    </Button>
+  );
+};
