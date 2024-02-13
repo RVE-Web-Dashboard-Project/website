@@ -5,6 +5,7 @@ import { useState } from "react";
 import useCoordinatorSelector from "../../../repository/redux/selectors/useCoordinatorsSelector";
 import { NodesState } from "../../../repository/redux/slices/coordinatorsSlice";
 import { useIsOnMobile } from "../../../styles/useIsOnMobile";
+import { PingAllNodesButton } from "./PingAllNodesButton";
 
 interface NodesPingStatusDrawerProps {
   open: boolean;
@@ -50,6 +51,7 @@ const DrawerContent = () => {
 
   return (
     <Stack spacing={2} pt={2}>
+      <PingAllNodesButton coordinators={notEmptyCoordinators} />
       {notEmptyCoordinators.map(([coordinatorId, coordinatorObject]) => (
         <CoordinatorList
           key={coordinatorId}
