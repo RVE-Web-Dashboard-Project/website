@@ -45,7 +45,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "serve": "serve -s build -l 3101",
+    "serve": "serve -s build",
     "test": "react-scripts test",
     "lint": "eslint . --ext .ts",
     "build-checks": "npx typia generate --input src/repository/types/checks/templates --output src/repository/types/checks/generated --project tsconfig.json",
