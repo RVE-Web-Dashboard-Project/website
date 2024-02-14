@@ -1,4 +1,4 @@
-import { Stack, styled, Toolbar, Typography } from "@mui/material";
+import { Stack, styled, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
 
 import { CommandSelection } from "../components/Home/CommandSelection";
@@ -14,7 +14,6 @@ export default function Home() {
 
   return (
     <Fragment >
-      <Toolbar />
       <Main open={!isOnMobile && isDrawerOpen}>
         <Typography my={2} variant="h4" textAlign="center" noWrap>Home</Typography>
 
