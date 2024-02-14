@@ -81,13 +81,17 @@ export default function useAddConsoleMessage() {
     let msg = "";
     const sentCommandId = ongoingCommands[data.order_id]?.commandId;
     const usedCommand = commands.find((c) => c.id === sentCommandId);
-    const commandName = usedCommand?.name ?? (sentCommandId ?? data.command).toString();
+    const commandName = usedCommand?.name ?? (sentCommandId ? sentCommandId.toString() : undefined);
     if (data.command === 10) {
-      msg = `Error received from ${destination} for command "${commandName}" (NOACK response)`;
+      if (commandName) {
+        msg = `Error received from ${destination} for command "${commandName}" (NOACK response)`;
+      } else {
+        msg = `Error received from ${destination} (NOACK response)`;
+      }
     } else if (data.params) {
-      msg = `Response received from ${destination} for command "${commandName}": ${data.params.param1}`;
+      msg = `Response received from ${destination} for command "${commandName ?? data.command}": ${data.params.param1}`;
     } else {
-      msg = `Successful response received from ${destination} for command "${commandName}"`;
+      msg = `Successful response received from ${destination} for command "${commandName ?? data.command}"`;
     }
 
     await addRawConsoleMessage({
