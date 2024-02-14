@@ -81,7 +81,7 @@ export default function useAddConsoleMessage() {
     let msg = "";
     const sentCommandId = ongoingCommands[data.order_id]?.commandId;
     const usedCommand = commands.find((c) => c.id === sentCommandId);
-    const commandName = usedCommand?.name ?? sentCommandId.toString();
+    const commandName = usedCommand?.name ?? (sentCommandId ?? data.command).toString();
     if (data.command === 10) {
       msg = `Error received from ${destination} for command "${commandName}" (NOACK response)`;
     } else if (data.params) {
