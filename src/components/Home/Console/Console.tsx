@@ -26,7 +26,7 @@ const MessagesList = ({ filterText }: {filterText: string | null}) => {
 
   return (
     <ConsoleContainer>
-      {messages.map((message) => (
+      {messages.toReversed().map((message) => (
         <ConsoleMessageRow key={message.uuid} message={message} />
       ))}
     </ConsoleContainer>
@@ -36,7 +36,7 @@ const MessagesList = ({ filterText }: {filterText: string | null}) => {
 const ConsoleContainer = styled(Stack)(({ theme }) => ({
   flex: 1,
   minHeight: "min(200px, 50vh)",
-  maxHeight: "50vh",
+  maxHeight: "45vh",
   overflowY: "auto",
   border: "1px solid",
   borderRadius: 3,
