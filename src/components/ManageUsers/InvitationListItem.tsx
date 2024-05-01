@@ -1,6 +1,6 @@
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import FileCopyOutlinedIcon from "@mui/icons-material/FileCopyOutlined";
-import { IconButton, ListItem, ListItemSecondaryAction, ListItemText, Stack, Tooltip } from "@mui/material";
+import { IconButton, ListItem, ListItemSecondaryAction, ListItemText, Stack, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { useDeleteInvitation } from "../../repository/api/useDeleteInvitation";
@@ -49,12 +49,18 @@ const CopyToClipboardButton = ({ id }: {id: string}) => {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  const URL = process.env.PUBLIC_URL + "/invitation/" + id;
+
+  if (navigator.clipboard === undefined) {
+    return <Typography variant="caption" color="gray">{URL}</Typography>;
+  }
+
   return (
     <Tooltip title="Copy to clipboard" >
       <IconButton
         size="small"
         onClick={() => {
-          navigator.clipboard.writeText(process.env.PUBLIC_URL + "/invitation/" + id);
+          navigator.clipboard.writeText(URL);
           setIsCopied(true);
           sleep(1000).then(() => setIsCopied(false));
         }}
