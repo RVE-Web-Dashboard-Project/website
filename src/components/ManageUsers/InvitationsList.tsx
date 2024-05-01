@@ -11,7 +11,7 @@ export const InvitationList = () => {
   const { error, loading, fetchInvitationsCommand } = useFetchInvitations();
   const invitations = useInvitationsSelector();
 
-  if (Object.keys(invitations).length === 0 && !loading && !error) {
+  if (invitations === undefined && !loading && !error) {
     fetchInvitationsCommand();
   }
 

@@ -7,14 +7,14 @@ export interface UserState {
   userId: number | null;
   token: string | null;
   users: Record<string, UserObject>;
-  invitations: Record<string, InvitationInfo>;
+  invitations: Record<string, InvitationInfo> | undefined;
 }
 
 const initialState: UserState = {
   userId: null,
   token: getTokenFromStorage(),
   users: {},
-  invitations: {},
+  invitations: undefined,
 };
 
 
@@ -43,15 +43,23 @@ export const userSlice = createSlice({
       delete state.users[action.payload];
     },
     setInvitation: (state, action: PayloadAction<InvitationInfo>) => {
+      if (state.invitations === undefined) {
+        state.invitations = {};
+      }
       state.invitations[action.payload.id] = action.payload;
     },
     setInvitations(state, action: PayloadAction<InvitationInfo[]>) {
+      if (state.invitations === undefined) {
+        state.invitations = {};
+      }
       action.payload.forEach((invitation) => {
-        state.invitations[invitation.id] = invitation;
+        state.invitations![invitation.id] = invitation;
       });
     },
     removeInvitation: (state, action: PayloadAction<string>) => {
-      delete state.invitations[action.payload];
+      if (state.invitations !== undefined) {
+        delete state.invitations[action.payload];
+      }
     },
   },
 });
